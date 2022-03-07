@@ -1,0 +1,9 @@
+As an admin, I want to add new books to the database, so that I can make the game more exhaustive.
+As a player, I want to filter passages by genre, so that I can have an experience specific to my personal literary tastes.
+As a competitive player, I want to see points as I play, so that I can know how well I'm doing currently.
+As a player, I want the difficulty to rise, so that I can be challenged more as I play the game.
+As a very competitive player, I want to see the leaderboards so that I can know how many points it would take to get to the top.
+As a non-logged-in user, I want to see a message encouraging me to register an account, so that I can have my progress saved in the database instead of just locally.
+As a web surfer, I want to see an interesting front page, so that I can be convinced to start playing the game.
+As a user, I want to upload a profile picture, so that I can distinguish myself from other users.
+As a user, I want my points to appear on my profile, so that other users can see my progress.
