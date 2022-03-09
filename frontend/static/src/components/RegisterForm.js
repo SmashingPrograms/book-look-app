@@ -25,7 +25,7 @@ function RegisterForm(props) {
 
   const handleCreateSubmit = async event => {
     event.preventDefault();
-
+    
     const options = {
       method: 'POST',
       headers: {

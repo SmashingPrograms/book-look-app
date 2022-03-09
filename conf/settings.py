@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'api.apps.ApiConfig',
     'frontend.apps.FrontendConfig',
+    'game.apps.GameConfig',
 ]
 
 MIDDLEWARE = [
