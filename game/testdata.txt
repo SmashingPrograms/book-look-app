@@ -1,0 +1,37 @@
+(book-look-app) ➜  game git:(main) ✗ python3 generate_question.py
+PASSAGE:
+
+In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.
+
+"Whenever you feel like criticising any one," he told me, "just remember that all the people in this world haven't _____(1) the advantages that you've had."
+
+He didn't say any more, but we've always been unusually _____(7) in a reserved way, and I understood that he _____(5) a great deal more than that. In consequence, I'm inclined to reserve all judgments, a habit that has opened up many curious natures to _____(4) and also made me the victim of not a few veteran bores. The abnormal mind is quick to detect and attach itself to this quality when _____(3) appears in a normal person, and so it came about that in college I was unjustly accused of being a politician, because I was privy to the secret griefs of wild, unknown men. Most of the confidences were unsought—frequently I have feigned sleep, preoccupation, or a hostile levity when I realized by some unmistakable sign that an intimate revelation was quivering on the horizon; for the intimate revelations of young men, or at least the terms in which they express them, are _____(10) _____(6) and marred _____(2) obvious suppressions. Reserving judgments is a _____(8) of infinite hope. I am still a little afraid of missing something if I forget that, as my father snobbishly suggested, and I snobbishly repeat, a sense of the fundamental decencies is parcelled out unequally at birth.
+
+
+
+Your choices:
+
+['MEANT', 'BY', 'USUALLY', 'IT', 'HAD', 'COMMUNICATIVE', 'MATTER', 'ME', 'PLAGIARISTIC', 'HAD']
+
+
+Guess word #1) had
+Wow! You got it!
+Next:
+
+
+
+
+
+PASSAGE:
+
+In my younger and more vulnerable years my father gave me some advice that I've been turning over in my mind ever since.
+
+"Whenever you feel like criticising any one," he told me, "just remember that all the people in this world haven't HAD(1) the advantages that you've had."
+
+He didn't say any more, but we've always been unusually _____(7) in a reserved way, and I understood that he _____(5) a great deal more than that. In consequence, I'm inclined to reserve all judgments, a habit that has opened up many curious natures to _____(4) and also made me the victim of not a few veteran bores. The abnormal mind is quick to detect and attach itself to this quality when _____(3) appears in a normal person, and so it came about that in college I was unjustly accused of being a politician, because I was privy to the secret griefs of wild, unknown men. Most of the confidences were unsought—frequently I have feigned sleep, preoccupation, or a hostile levity when I realized by some unmistakable sign that an intimate revelation was quivering on the horizon; for the intimate revelations of young men, or at least the terms in which they express them, are _____(10) _____(6) and marred _____(2) obvious suppressions. Reserving judgments is a _____(8) of infinite hope. I am still a little afraid of missing something if I forget that, as my father snobbishly suggested, and I snobbishly repeat, a sense of the fundamental decencies is parcelled out unequally at birth.
+
+
+
+Your choices:
+
+['MEANT', 'BY', 'USUALLY', 'IT', 'COMMUNICATIVE', 'MATTER', 'ME', 'PLAGIARISTIC', 'HAD']
