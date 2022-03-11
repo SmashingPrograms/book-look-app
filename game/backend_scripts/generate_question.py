@@ -1,137 +1,138 @@
 import random
 import os
+import string
 
-symbols_to_remove = [
-  '\n',
-  ',',
-  '.',
-  "'",
-  '"',
-  '-',
-  '—',
-  '–',
-  '(',
-  ')',
-  '[',
-  ']',
-  '{',
-  '}',
-  ';',
-  ':',
-  '…',
-  '\\',
-  '/',
-  '=',
-  '+',
-  '_',
-  '!',
-  '?',
-  '>',
-  '<',
-  '~',
-  '@',
-  '§',
-  '#',
-  '$',
-  '%',
-  '^',
-  '&',
-  '*',
-  # Numbers
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '0',
-  # Fractions
-  '¼',
-  '½',
-  '¾',
-  '⅐',
-  '⅑',
-  '⅒',
-  '⅓',
-  '⅔',
-  '⅕',
-  '⅖',
-  '⅗',
-  '⅘',
-  '⅙',
-  '⅚',
-  '⅛',
-  '⅜',
-  '⅝',
-  '⅞',
-  '⅟',
-  '↉',
-  # Unicode stuff
-]
+# symbols_to_remove = [
+#   '\n',
+#   ',',
+#   '.',
+#   "'",
+#   '"',
+#   '-',
+#   '—',
+#   '–',
+#   '(',
+#   ')',
+#   '[',
+#   ']',
+#   '{',
+#   '}',
+#   ';',
+#   ':',
+#   '…',
+#   '\\',
+#   '/',
+#   '=',
+#   '+',
+#   '_',
+#   '!',
+#   '?',
+#   '>',
+#   '<',
+#   '~',
+#   '@',
+#   '§',
+#   '#',
+#   '$',
+#   '%',
+#   '^',
+#   '&',
+#   '*',
+#   # Numbers
+#   '1',
+#   '2',
+#   '3',
+#   '4',
+#   '5',
+#   '6',
+#   '7',
+#   '8',
+#   '9',
+#   '0',
+#   # Fractions
+#   '¼',
+#   '½',
+#   '¾',
+#   '⅐',
+#   '⅑',
+#   '⅒',
+#   '⅓',
+#   '⅔',
+#   '⅕',
+#   '⅖',
+#   '⅗',
+#   '⅘',
+#   '⅙',
+#   '⅚',
+#   '⅛',
+#   '⅜',
+#   '⅝',
+#   '⅞',
+#   '⅟',
+#   '↉',
+#   # Unicode stuff
+# ]
 
 books = [
-  {
-      'book': 'Winnie-the-Pooh',
-      'author': 'A. A. Milne',
-      'year': '1926',
-      'genres': [
-        'Juvenile',
-        'Fiction',
-      ],
-      'url': 'https://www.gutenberg.org/files/67098/67098-h/67098-h.htm',
-      'beginning': "Here is Edward Bear",
-      'ending': 'going up the stairs behind him.',
-  },
-  {
-      'book': 'Winesburg, Ohio',
-      'author': 'Sherwood Anderson',
-      'year': '1919',
-      'genres': [
-        'Social commentary',
-        'Fiction',
-      ],
-      'url': 'https://www.gutenberg.org/cache/epub/416/pg416.html',
-      'beginning': "The writer, an old man with a white mustache",
-      'ending': 'paint the dreams of his manhood.',
-  },
-  {
-      'book': 'The Adventures of Tom Sawyer',
-      'author': 'Mark Twain',
-      'year': '1876',
-      'genres': [
-        'Juvenile',
-        'Fiction',
-      ],
-      'url': 'https://www.gutenberg.org/files/74/74-h/74-h.htm',
-      'beginning': "Most of the adventures recorded in this book really",
-      'ending': 'of their lives at present.',
-  },
-  {
-      'book': 'The Great Gatsby',
-      'author': 'F. Scott Fitzgerald',
-      'year': '1925',
-      'genres': [
-        'Fiction',
-      ],
-      'url': 'https://www.gutenberg.org/files/64317/64317-h/64317-h.htm',
-      'beginning': "In my younger and",
-      'ending': 'into the past.',
-  },
-  {
-      'book': 'Treasure Island',
-      'author': 'Robert Louis Stevenson',
-      'year': '1883',
-      'genres': [
-        'Adventure',
-        'Fiction',
-      ],
-      'url': 'https://www.gutenberg.org/files/120/120-h/120-h.htm',
-      'beginning': "QUIRE TRELAWNEY",
-      'ending': 'ears:',
-  },
+  # {
+  #     'book': 'Winnie-the-Pooh',
+  #     'author': 'A. A. Milne',
+  #     'year': '1926',
+  #     'genres': [
+  #       'Juvenile',
+  #       'Fiction',
+  #     ],
+  #     'url': 'https://www.gutenberg.org/files/67098/67098-h/67098-h.htm',
+  #     'beginning': "Here is Edward Bear",
+  #     'ending': 'going up the stairs behind him.',
+  # },
+  # {
+  #     'book': 'Winesburg, Ohio',
+  #     'author': 'Sherwood Anderson',
+  #     'year': '1919',
+  #     'genres': [
+  #       'Social commentary',
+  #       'Fiction',
+  #     ],
+  #     'url': 'https://www.gutenberg.org/cache/epub/416/pg416.html',
+  #     'beginning': "The writer, an old man with a white mustache",
+  #     'ending': 'paint the dreams of his manhood.',
+  # },
+  # {
+  #     'book': 'The Adventures of Tom Sawyer',
+  #     'author': 'Mark Twain',
+  #     'year': '1876',
+  #     'genres': [
+  #       'Juvenile',
+  #       'Fiction',
+  #     ],
+  #     'url': 'https://www.gutenberg.org/files/74/74-h/74-h.htm',
+  #     'beginning': "Most of the adventures recorded in this book really",
+  #     'ending': 'of their lives at present.',
+  # },
+  # {
+  #     'book': 'The Great Gatsby',
+  #     'author': 'F. Scott Fitzgerald',
+  #     'year': '1925',
+  #     'genres': [
+  #       'Fiction',
+  #     ],
+  #     'url': 'https://www.gutenberg.org/files/64317/64317-h/64317-h.htm',
+  #     'beginning': "In my younger and",
+  #     'ending': 'into the past.',
+  # },
+  # {
+  #     'book': 'Treasure Island',
+  #     'author': 'Robert Louis Stevenson',
+  #     'year': '1883',
+  #     'genres': [
+  #       'Adventure',
+  #       'Fiction',
+  #     ],
+  #     'url': 'https://www.gutenberg.org/files/120/120-h/120-h.htm',
+  #     'beginning': "QUIRE TRELAWNEY",
+  #     'ending': 'ears:',
+  # },
   {
       'book': 'Religio Journalistici',
       'author': 'Christopher Morley',
@@ -143,6 +144,17 @@ books = [
       'beginning': "coming home",
       'ending': 'Marvell:',
   },
+  # {
+  #     'book': 'War and Peace',
+  #     'author': 'Leo Tolstoy',
+  #     'year': '1869',
+  #     'genres': [
+  #       'Historical fiction',
+  #     ],
+  #     'url': 'https://www.gutenberg.org/files/2600/2600-h/2600-h.htm',
+  #     'beginning': "\"Well, Prince, so Genoa",
+  #     'ending': 'we are not conscious.',
+  # },
 ]
 
 while 1:
@@ -155,7 +167,7 @@ while 1:
   # url = input("Enter URL: ")
 
   book = books[random.randint(0, len(books)-1)]
-
+  print("book: " + book['book'])
   url = book['url']
   # beginning = input("Enter beginning text: ")
   beginning = book['beginning']
@@ -167,10 +179,12 @@ while 1:
   # genre = input("Genre(s), separate by comma: ")
 
   with urllib.request.urlopen(url) as response:
+    print("Got here")
     html = response.read().decode()
     # html = str(html)
     # html = html.replace('\\n', '\n').replace('\\t', '\t')[2:]
 
+  print("Got this far")
   soup = BeautifulSoup(html, 'html.parser')
   soup.prettify()
 
@@ -211,14 +225,6 @@ while 1:
     else:
       break
 
-  # while 1:
-  #   if "\n\n" not in parsed_text:
-  #     print("It's done")
-  #     break
-  #   if "\n\n" in parsed_text:
-  #     print("Got here")
-  #     parsed_text = parsed_text.replace("\n\n", "\n")
-
   parsed_text = parsed_text.replace("”", "\"")
   parsed_text = parsed_text.replace("“", "\"")
   parsed_text = parsed_text.replace("’", "'")
@@ -248,8 +254,8 @@ while 1:
 
   # CREATE PASSAGES, will become its own separate file
 
-  difficulty = 15
-  max_difficulty = 20
+  difficulty = 9
+  max_difficulty = 10
 
   # length takes the difficulty and gives back an appropriate length
   length = max_difficulty+1 - difficulty
@@ -330,8 +336,10 @@ while 1:
 
     # take out symbols that are likely to cause problems, with word choices
     to_continue = False
-    for symbol in symbols_to_remove:
-      if symbol in word or len(word) < 4:
+    if len(word) < 4:
+      continue
+    for letter in word:
+      if (letter not in string.ascii_uppercase and letter not in string.ascii_lowercase):
         to_continue = True
         break
     if to_continue == True:
