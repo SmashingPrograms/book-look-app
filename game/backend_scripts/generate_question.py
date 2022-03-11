@@ -132,6 +132,17 @@ books = [
       'beginning': "QUIRE TRELAWNEY",
       'ending': 'ears:',
   },
+  {
+      'book': 'Religio Journalistici',
+      'author': 'Christopher Morley',
+      'year': '1924',
+      'genres': [
+        'Nonfiction',
+      ],
+      'url': 'https://www.gutenberg.org/files/66145/66145-h/66145-h.htm',
+      'beginning': "coming home",
+      'ending': 'Marvell:',
+  },
 ]
 
 while 1:
@@ -170,40 +181,43 @@ while 1:
 
   parsed_text = []
 
+  # Takes out any stray page numbers that are on SOME Gutenberg pages
+  spans = soup.find_all('span', class_='pagenum')
+  # exit()
+
+  for tag in spans:
+    tag.string = ''
+    tag.unwrap()
+
+  # Takes all the book's text and puts it in text-only format instead of HTML
+
   for tag in html_parse:
     if (tag.name == 'div' or tag.name == 'p') and not tag.get_text().isspace():
-        parsed_text.append(tag.get_text())
+      parsed_text.append(tag.get_text())
 
   for line in parsed_text:
     parsed_text[parsed_text.index(line)] = line.lstrip()
 
   parsed_text = "\n".join(parsed_text)
 
-  # print(type(parsed_text))
-  # exit()
-  # if type(parsed_text) == "bytes":
-  #    print("it was a bytes")
-  #    exit()
-  #    parsed_text = parsed_text.decode()
-
-  # take out ALL instances of more than 1 \n
-
+  # Preliminary string cleanup: takes out all symbols we don't want ANYWHERE
   while 1:
     if "  " in parsed_text:
-        parsed_text = parsed_text.replace("  ", "\n")
+      parsed_text = parsed_text.replace("  ", "\n")
     elif "  " in parsed_text:
-        parsed_text = parsed_text.replace("  ", "\n")
+      parsed_text = parsed_text.replace("  ", "\n")
+    elif "  " in parsed_text:
+      parsed_text = parsed_text.replace("  ", "\n")
     else:
-        break
+      break
 
-  while 1:
-    if "\n\n" in parsed_text:
-        parsed_text = parsed_text.replace("\n\n", "\n")
-    else:
-        break
-
-
-  # take out all symbols we don't want ANYWHERE
+  # while 1:
+  #   if "\n\n" not in parsed_text:
+  #     print("It's done")
+  #     break
+  #   if "\n\n" in parsed_text:
+  #     print("Got here")
+  #     parsed_text = parsed_text.replace("\n\n", "\n")
 
   parsed_text = parsed_text.replace("”", "\"")
   parsed_text = parsed_text.replace("“", "\"")
@@ -211,24 +225,22 @@ while 1:
   parsed_text = parsed_text.replace("‘", "'")
   parsed_text = parsed_text.replace("`", "'")
   parsed_text = parsed_text.replace("\r", "")
-  parsed_text = parsed_text.replace("\r", "")
   parsed_text = parsed_text.replace('\u200b', "")
 
-  test = open("test.txt", "w+")
-  test.write(str(parsed_text))
-  test.close()
-
-  # print(parsed_text)
-
-  # print(parsed_text)
+  # Slices all unnecessary beginning and end text based on specified beginning/ending data 
   parsed_text = parsed_text[parsed_text.index(beginning):]
   parsed_text = parsed_text[:parsed_text.index(ending)+len(ending)]
 
+  # Takes out all double returns. It has to be after the slice above for...some reason? Or it doesn't work with some books.
+  while 1:
+    if "\n\n" in parsed_text:
+      parsed_text = parsed_text.replace("\n\n", "\n")
+    else:
+      break
+  
   test = open("test.txt", "w+")
   test.write(str(parsed_text))
   test.close()
-
-  # print(html)
 
   # Each passage will have an ID and an associated difficulty.
 
@@ -319,7 +331,7 @@ while 1:
     # take out symbols that are likely to cause problems, with word choices
     to_continue = False
     for symbol in symbols_to_remove:
-      if symbol in word or len(word) < 2:
+      if symbol in word or len(word) < 4:
         to_continue = True
         break
     if to_continue == True:
