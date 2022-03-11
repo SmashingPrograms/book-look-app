@@ -72,143 +72,355 @@ symbols_to_remove = [
   # Unicode stuff
 ]
 
-passage = """Most of the adventures recorded in this book really occurred; one or two were experiences of my own, the rest those of boys who were schoolmates of mine. Huck Finn is drawn from life; Tom Sawyer also, but not from an individual—he is a combination of the characteristics of three boys whom I knew, and therefore belongs to the composite order of architecture.
+books = [
+  {
+      'book': 'Winnie-the-Pooh',
+      'author': 'A. A. Milne',
+      'year': '1926',
+      'genres': [
+        'Juvenile',
+        'Fiction',
+      ],
+      'url': 'https://www.gutenberg.org/files/67098/67098-h/67098-h.htm',
+      'beginning': "Here is Edward Bear",
+      'ending': 'going up the stairs behind him.',
+  },
+  {
+      'book': 'Winesburg, Ohio',
+      'author': 'Sherwood Anderson',
+      'year': '1919',
+      'genres': [
+        'Social commentary',
+        'Fiction',
+      ],
+      'url': 'https://www.gutenberg.org/cache/epub/416/pg416.html',
+      'beginning': "The writer, an old man with a white mustache",
+      'ending': 'paint the dreams of his manhood.',
+  },
+  {
+      'book': 'The Adventures of Tom Sawyer',
+      'author': 'Mark Twain',
+      'year': '1876',
+      'genres': [
+        'Juvenile',
+        'Fiction',
+      ],
+      'url': 'https://www.gutenberg.org/files/74/74-h/74-h.htm',
+      'beginning': "Most of the adventures recorded in this book really",
+      'ending': 'of their lives at present.',
+  },
+  {
+      'book': 'The Great Gatsby',
+      'author': 'F. Scott Fitzgerald',
+      'year': '1925',
+      'genres': [
+        'Fiction',
+      ],
+      'url': 'https://www.gutenberg.org/files/64317/64317-h/64317-h.htm',
+      'beginning': "In my younger and",
+      'ending': 'into the past.',
+  },
+  {
+      'book': 'Treasure Island',
+      'author': 'Robert Louis Stevenson',
+      'year': '1883',
+      'genres': [
+        'Adventure',
+        'Fiction',
+      ],
+      'url': 'https://www.gutenberg.org/files/120/120-h/120-h.htm',
+      'beginning': "QUIRE TRELAWNEY",
+      'ending': 'ears:',
+  },
+]
 
-The odd superstitions touched upon were all prevalent among children and slaves in the West at the period of this story—that is to say, thirty or forty years ago.
+while 1:
+  # GUTENBERG PULL FILE
+  import urllib.request
+  from bs4 import BeautifulSoup
+  import random
+  # import json
 
-Although my book is intended mainly for the entertainment of boys and girls, I hope it will not be shunned by men and women on that account, for part of my plan has been to try to pleasantly remind adults of what they once were themselves, and of how they felt and thought and talked, and what queer enterprises they sometimes engaged in."""
+  # url = input("Enter URL: ")
 
-passage = passage.replace("”", "\"")
-passage = passage.replace("“", "\"")
-passage = passage.replace("’", "'")
-passage = passage.replace("‘", "'")
-passage = passage.replace("`", "'")
-passage = passage.replace('\u200b', "")
+  book = books[random.randint(0, len(books)-1)]
 
+  url = book['url']
+  # beginning = input("Enter beginning text: ")
+  beginning = book['beginning']
+  # ending = input("Enter ending text: ")
+  ending = book['ending']
+  # book = input("Book name: ")
+  # author = input("Author: ")
+  # year = input("Year: ")
+  # genre = input("Genre(s), separate by comma: ")
 
-# logic to figure out what words can be used in the game
+  with urllib.request.urlopen(url) as response:
+    html = response.read().decode()
+    # html = str(html)
+    # html = html.replace('\\n', '\n').replace('\\t', '\t')[2:]
 
-passage_words_split = passage.split(" ")
+  soup = BeautifulSoup(html, 'html.parser')
+  soup.prettify()
 
-passage_words = []
+  # for data in soup.find_all("p"): 
+  #     print(data.get_text())
 
-for word in passage_words_split:
+  html_parse = soup.find_all()
 
-  # take out symbols that are likely to cause problems
-  to_continue = False
-  for symbol in symbols_to_remove:
-    if symbol in word or len(word) < 2:
-      to_continue = True
-      break
-  if to_continue == True:
-    continue
+  parsed_text = []
 
-  # words in all caps or caps in the middle of a word, again likely to cause problems
-  word_to_check_for_upper = word[1:]
-  if word_to_check_for_upper != word_to_check_for_upper.lower():
-    continue
+  for tag in html_parse:
+    if (tag.name == 'div' or tag.name == 'p') and not tag.get_text().isspace():
+        parsed_text.append(tag.get_text())
 
-  # doing the lowering now since cap testing is done
-  word = word.upper()
+  for line in parsed_text:
+    parsed_text[parsed_text.index(line)] = line.lstrip()
 
-  # checking for repeat words
-  if word in passage_words:
-    continue
+  parsed_text = "\n".join(parsed_text)
 
-  passage_words.append(word)
+  # print(type(parsed_text))
+  # exit()
+  # if type(parsed_text) == "bytes":
+  #    print("it was a bytes")
+  #    exit()
+  #    parsed_text = parsed_text.decode()
 
+  # take out ALL instances of more than 1 \n
 
-# print(passage_words)
-
-
-# generate word choices
-
-number_of_choices = 10
-expected_words = []
-
-for i in range(0, number_of_choices):
   while 1:
-    random_index = random.randint(0, len(passage_words)) - 1
-    if passage_words[random_index] not in expected_words:
-      expected_words.append(passage_words[random_index])
-      break
-
-# if 'THE' not in expected_words:
-#   expected_words.append('THE')
-#   expected_words.pop(0)
-
-# print(expected_words)
-
-
-# generate the blanks
-
-upper_test_list = []
-
-for element in passage_words_split:
-  upper_test_list.append(element.upper())
-
-passage_with_blanks = []
-
-for word in expected_words:
-
-  count_of_word_in_passage = upper_test_list.count(word)
-
-  if count_of_word_in_passage > 1:
-    instance_in_passage = random.randint(1, count_of_word_in_passage)
-    # print(f"{word} appeared {count_of_word_in_passage} times. It's on {instance_in_passage}.")
-
-  # blank_added = False
-  parse_index = -1
-  to_instance = 0
-  for element in passage_words_split:
-    element = element.upper()
-    parse_index += 1
-    if word == element:
-      if count_of_word_in_passage > 1:
-        to_instance += 1
-        if to_instance != instance_in_passage:
-          continue
-      passage_words_split[parse_index] = f"_____({expected_words.index(word)+1})"
-      break
-        
-      
-      # print(parse_index)
-
-
-word_choices = list(expected_words)
-random.shuffle(word_choices)
-  # print(expected_words)
-  # if len(set(expected_words)) != len(expected_words):
-  #   print("THIS DIDN'T WORK")
-  #   print(set(expected_words))
-  #   exit()
-
-passage_with_blanks = " ".join(passage_words_split)
-
-
-# test game
-count = 0
-for expected_word in expected_words:
-  count += 1
-  print("PASSAGE:\n")
-  print(passage_with_blanks)
-  print("\n\n")
-  print("Your choices:\n")
-  print(word_choices)
-  print("\n")
-  while 1:
-    answer = input(f"Guess word #{count}) ")
-    answer = answer.upper()
-    if answer == expected_word:
-      passage_with_blanks = passage_with_blanks.replace(f"_____({expected_words.index(expected_word)+1})", f"{answer}({expected_words.index(expected_word)+1})")
-      word_choices.remove(expected_word)
-      print("Wow! You got it!")
-      input("Next: ")
-      print("\n\n\n\n")
-      break
-    elif answer == "":
-      print("Type something here please.")
+    if "  " in parsed_text:
+        parsed_text = parsed_text.replace("  ", "\n")
+    elif "  " in parsed_text:
+        parsed_text = parsed_text.replace("  ", "\n")
     else:
-      print("Nope, that's not really right! Sorry! -2 points")
+        break
 
-print("YOU WON THE GAME")
+  while 1:
+    if "\n\n" in parsed_text:
+        parsed_text = parsed_text.replace("\n\n", "\n")
+    else:
+        break
+
+
+  # take out all symbols we don't want ANYWHERE
+
+  parsed_text = parsed_text.replace("”", "\"")
+  parsed_text = parsed_text.replace("“", "\"")
+  parsed_text = parsed_text.replace("’", "'")
+  parsed_text = parsed_text.replace("‘", "'")
+  parsed_text = parsed_text.replace("`", "'")
+  parsed_text = parsed_text.replace("\r", "")
+  parsed_text = parsed_text.replace("\r", "")
+  parsed_text = parsed_text.replace('\u200b', "")
+
+  test = open("test.txt", "w+")
+  test.write(str(parsed_text))
+  test.close()
+
+  # print(parsed_text)
+
+  # print(parsed_text)
+  parsed_text = parsed_text[parsed_text.index(beginning):]
+  parsed_text = parsed_text[:parsed_text.index(ending)+len(ending)]
+
+  test = open("test.txt", "w+")
+  test.write(str(parsed_text))
+  test.close()
+
+  # print(html)
+
+  # Each passage will have an ID and an associated difficulty.
+
+
+
+  # CREATE PASSAGES, will become its own separate file
+
+  difficulty = 15
+  max_difficulty = 20
+
+  # length takes the difficulty and gives back an appropriate length
+  length = max_difficulty+1 - difficulty
+  length *= 50
+
+  split_for_passages = parsed_text.split(" ")
+
+  filters = [
+    'fuck',
+    'shit',
+    'bitch',
+    'nigg',
+    'whore',
+    'slut',
+    'negro',
+    'mulatt',
+    'octoroon',
+  ]
+
+  for word in split_for_passages:
+    for filter in filters:
+        if filter in word:
+          # print("Word was ", word)
+          split_for_passages[split_for_passages.index(word)] = "[redacted]"
+
+  passages = []
+  new_passage = []
+  passage_dict = {
+    'id': len(passages)+1,
+    'passage': '',
+    'usable': True,
+  }
+  count = 0
+  index = 0
+  for word in split_for_passages:
+    # print(word)
+    count += len(word)
+    new_passage.append(word)
+    if word == '[redacted]':
+        passage_dict["usable"] = False
+        passage_dict["unusability_desc"] = "contains at least one trigger word"
+    # if count >= length or split_for_passages.index(word) == len(split_for_passages)-1:
+    if count >= length or index == len(split_for_passages)-1:
+        passage_dict["passage"] = " ".join(new_passage)
+        passages.append(dict(passage_dict))
+        new_passage = []
+        passage_dict = {
+          'id': len(passages)+1,
+          'passage': '',
+          'usable': True,
+        }
+        count = 0
+    index += 1
+
+  test = open("test.txt", "w+")
+  test.write(str(passages))
+  test.close()
+
+  # GENERATE QUESTION FILE
+
+  random.shuffle(passages)
+
+  passage_dict = passages[0]
+
+  header = f"From \"{book['book']}\" ({book['year']}), by {book['author']}"
+
+  if passage_dict["usable"] == False:
+    continue
+  
+  passage = f". . . {passage_dict['passage']} . . ."
+  # logic to figure out what words can be used in the game
+
+  passage_words_split = passage.split(" ")
+
+  passage_words = []
+
+  for word in passage_words_split:
+
+    # take out symbols that are likely to cause problems, with word choices
+    to_continue = False
+    for symbol in symbols_to_remove:
+      if symbol in word or len(word) < 2:
+        to_continue = True
+        break
+    if to_continue == True:
+      continue
+
+    # words in all caps or caps in the middle of a word, again likely to cause problems
+    word_to_check_for_upper = word[1:]
+    if word_to_check_for_upper != word_to_check_for_upper.lower():
+      continue
+
+    # doing the lowering now since cap testing is done
+    word = word.upper()
+
+    # checking for repeat words
+    if word in passage_words:
+      continue
+
+    passage_words.append(word)
+
+
+  # print(passage_words)
+
+
+  # generate word choices
+
+  number_of_blanks = 6
+  expected_words = []
+
+  for i in range(0, number_of_blanks):
+    while 1:
+      random_index = random.randint(0, len(passage_words)) - 1
+      if passage_words[random_index] not in expected_words:
+        expected_words.append(passage_words[random_index])
+        break
+
+  # generate the blanks
+
+  upper_test_list = []
+
+  for element in passage_words_split:
+    upper_test_list.append(element.upper())
+
+  passage_with_blanks = []
+
+  for word in expected_words:
+
+    count_of_word_in_passage = upper_test_list.count(word)
+
+    if count_of_word_in_passage > 1:
+      instance_in_passage = random.randint(1, count_of_word_in_passage)
+      # print(f"{word} appeared {count_of_word_in_passage} times. It's on {instance_in_passage}.")
+
+    # blank_added = False
+    parse_index = -1
+    to_instance = 0
+    for element in passage_words_split:
+      element = element.upper()
+      parse_index += 1
+      if word == element:
+        if count_of_word_in_passage > 1:
+          to_instance += 1
+          if to_instance != instance_in_passage:
+            continue
+        passage_words_split[parse_index] = f"_____({expected_words.index(word)+1})"
+        break
+          
+        
+        # print(parse_index)
+
+
+  word_choices = list(expected_words)
+  random.shuffle(word_choices)
+
+  passage_with_blanks = " ".join(passage_words_split)
+
+
+  # test game
+  count = 0
+  for expected_word in expected_words:
+    count += 1
+    print("PASSAGE:\n")
+    print(header)
+    print(passage_with_blanks)
+    print("\n\n")
+    print("Your choices:\n")
+    print(word_choices)
+    print("\n")
+    while 1:
+      answer = input(f"Guess word #{count}) ")
+      answer = answer.upper()
+      if answer == expected_word:
+        passage_with_blanks = passage_with_blanks.replace(f"_____({expected_words.index(expected_word)+1})", f"{answer}({expected_words.index(expected_word)+1})")
+        word_choices.remove(expected_word)
+        print("Wow! You got it!")
+        input("Next: ")
+        print("\n\n\n\n")
+        break
+      elif answer == "":
+        print("Type something here please.")
+      else:
+        print("Nope, that's not really right! Sorry! -2 points")
+
+  print(passage_with_blanks)
+  print("\n\n\n\n\n\nYOU WON THIS ROUND\n\n\n\n\n\n\n\n")
