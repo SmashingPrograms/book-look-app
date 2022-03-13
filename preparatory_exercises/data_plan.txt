@@ -1,0 +1,81 @@
+BOOKS:
+
+{
+  'id': 'winnie-the-pooh',
+  'book': 'Winnie-the-Pooh',
+  'author': 'A. A. Milne',
+  'year': 1926,
+  'genres': [
+    'Juvenile',
+    'Fiction',
+  ]
+  'meta': {
+    'url_original': 'https://www.gutenberg.org/files/67098/67098-h/67098-h.htm',
+    'start': 'Here is Edward Bear, coming downstairs now,',
+    'end': 'going up the stairs behind him.',
+    'date_added': '{date}',
+  }
+}
+
+{
+  'id': 'the-great-gatsby',
+  'book': 'The Great Gatsby',
+  'author': 'F. Scott Fitzgerald',
+  'year': 1925,
+  'genres': [
+    'General',
+  ]
+  'meta': {
+    [...]
+  }
+}
+
+PASSAGES:
+
+winnie-the-pooh/passages/{difficulty}/
+
+{
+  'id': 1,
+  'passage': 'Here is Edward Bear, coming downstairs now, bump, bump, bump, on the back of his head, behind Christopher Robin. It is, as far as he knows, the only way of coming downstairs, but sometimes he feels that there really is another way, if only he could stop bumping for a moment and think of it. And then he feels that perhaps there isn't. Anyhow, here he is at the bottom, and ready to be introduced to',
+  'usable': True,
+}
+
+Could also be:
+'usable': False,
+'unusability_desc': 'contains at least one trigger word',
+'trigger_words_hit': [
+  'fuck',
+  'shit',
+  'invalid',
+]
+
+'usable': False,
+'unusability_desc': 'too few words that are usable for even 5 blanks in the game',
+
+
+FILTERS:
+
+{
+  'id': 1,
+  'type': 'exact',
+  'string': 'fuck',
+  'description': null,
+}
+
+{
+  'id': 2,
+  'type': 'full_word',
+  'string': 'buffoon',
+  'description': 'Common insult in the English language',
+}
+
+
+
+
+DIFFICULTIES:
+
+{
+  'difficulty': 1 minimum (length of passages)
+  'blanks': 3 minimum (up to 20)
+  '
+}
