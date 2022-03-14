@@ -10,6 +10,7 @@ class Test(models.Model):
 
 class Book(models.Model):
     title = models.TextField()
+    simple_title = models.TextField(blank=True)
     author = models.TextField()
     year = models.IntegerField()
     genre = models.TextField()
