@@ -20,7 +20,18 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.text
+        return self.title
+
+class Passage(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    difficulty = models.IntegerField(null=True)
+    passage = models.TextField()
+    passage_num = models.IntegerField(null=True)
+    usable = models.BooleanField()
+    unusability_desc = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.book
 
 class Filter(models.Model):
     string = models.TextField()
@@ -28,7 +39,7 @@ class Filter(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.text
+        return self.string
 
 
 # The Odyssey

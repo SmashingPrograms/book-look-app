@@ -84,7 +84,9 @@ def gutenberg_pull(book, title):
          parsed_text = parsed_text.replace("\n\n", "\n")
       else:
          break
-
-   book = open(f"game/backend_scripts/books/{title}.txt", "x")
+   try:
+      book = open(f"game/backend_scripts/books/{title}.txt", "x")
+   except FileExistsError:
+      book = open(f"game/backend_scripts/books/{title}.txt", "w+")
    book.write(str(parsed_text))
    book.close()

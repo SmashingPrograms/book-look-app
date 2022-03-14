@@ -12,6 +12,11 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = '__all__'
 
+class PassageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Passage
+        fields = '__all__'
+
 class FilterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Filter

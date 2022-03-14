@@ -255,10 +255,10 @@ while 1:
   # CREATE PASSAGES, will become its own separate file
 
   difficulty = 9
-  max_difficulty = 10
+  max_difficulty = 9
 
   # length takes the difficulty and gives back an appropriate length
-  length = max_difficulty+1 - difficulty
+  length = max_difficulty+2 - difficulty
   length *= 50
 
   split_for_passages = parsed_text.split(" ")
