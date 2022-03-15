@@ -31,7 +31,7 @@ class Passage(models.Model):
     unusability_desc = models.TextField(blank=True)
 
     def __str__(self):
-        return self.book
+        return self.book.title
 
 class Filter(models.Model):
     string = models.TextField()

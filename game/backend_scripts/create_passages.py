@@ -1,7 +1,7 @@
 import urllib.request
 import json
 
-def create_passages(book, host_name, simplified_title):
+def create_passages(host_name, simplified_title):
   # get filters in there
 
   title = simplified_title
@@ -44,6 +44,7 @@ def create_passages(book, host_name, simplified_title):
       passage_dict["unusability_desc"] = description
     count = 0
     index = 0
+    passage_num = 0
     for word in split_for_passages:
       # print(word)
       count += len(word)
@@ -55,8 +56,11 @@ def create_passages(book, host_name, simplified_title):
         if index == len(split_for_passages)-1:
           make_unusable("Ending passage; will be too short for difficulty given")
         passage_dict["difficulty"] = difficulty
-        passage_dict["passage_num"] = index
+        passage_num += 1
+        passage_dict["passage_num"] = passage_num
         passage_dict["passage"] = " ".join(new_passage)
+        if "unusability_desc" not in passage_dict:
+          passage_dict["unusability_desc"] = ""
         passages.append(dict(passage_dict))
         new_passage = []
         passage_dict = dict(passage_dict_reset)

@@ -48,18 +48,12 @@ class TestAPIView(generics.ListCreateAPIView):
       serializer.save(signal=reversed)
 
 class BookList(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
+    # queryset = Book.objects.all()
     serializer_class = BookSerializer
-    # def perform_create(self, serializer):
-    #   # serializer.save(signal=reversed)
-    #   pass
     
     def perform_create(self, serializer):
-      # serializer.save(signal=reversed)
-      # print(dict(self.request.data))
       book = dict(self.request.data)
       host_name = self.request.META['HTTP_HOST']
-      # Simplify the title, to match it to the book text easily later
       title = self.request.data["title"]
       simplified_title = simplify_title(title)
       serializer.save(simple_title=simplified_title)
@@ -70,29 +64,40 @@ class BookList(generics.ListCreateAPIView):
         book_id = books[len(books)-1]['id']
 
       gutenberg_pull(book, simplified_title)
-      # print("Got past Gutenberg")
-      passages = create_passages(book, host_name, simplified_title)
+      passages = create_passages(host_name, simplified_title)
 
       for difficulty in range(1, 10):
         passages_to_add = [ passage for passage in passages if passage['difficulty'] == difficulty ]
-        print(passages_to_add)
-        url = f"http://{host_name}/api/v1/books/{book_id}/{difficulty}/passages"
         for passage in passages_to_add:
-          print("DID I EVEN GET HERE?")
-          print(passage)
-          data = json.dumps(passage).encode()
-          req = request.Request(url, data=data)
-          resp = request.urlopen(req)
-
-      # for i in passages:
-      #   for difficulty in difficulties:
-
-        # PassageList.perform_create(ksdkgoksadgkosdoo)
+          passage["book"] = book_id
+          serializer = PassageSerializer(data=passage)
+          serializer.is_valid()
+          serializer.save()
 
   
 class PassageList(generics.ListCreateAPIView):
-    queryset = Passage.objects.all()
+    # queryset = Passage.objects.all()
     serializer_class = PassageSerializer
+
+
+
+
+
+    def get_queryset(self):
+      # import pdb 
+      # pdb.set_trace()
+      book_id = self.kwargs['pk']
+      difficulty = self.request.query_params.get('difficulty', None)
+      if not difficulty is None:
+        # import pdb 
+        # pdb.set_trace()
+        return Passage.objects.filter(book=book_id, difficulty=difficulty)
+      else:
+        return Passage.objects.filter(book=book_id)
+
+  # def get_queryset(self):
+  #   book_id = self.kwargs['book_id']
+  #   return Book.objects.filter(id=book_id)
 
     # def perform_create(self, serializer):
     #   print("sdaogasodkgksoadgkosdkogoksdkof")
@@ -102,7 +107,7 @@ class PassageList(generics.ListCreateAPIView):
     def perform_destroy(self, serializer):
       self.objects.all().delete()
 
-class PassageChangeAPIView(generics.RetrieveUpdateDestroyAPIView):
+class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
   queryset = Passage.objects.all()
   serializer_class = PassageSerializer
 
@@ -115,12 +120,13 @@ class PassageChangeAPIView(generics.RetrieveUpdateDestroyAPIView):
     PassageList.objects.all().delete()
 
 
-class BookChangeAPIView(generics.RetrieveUpdateDestroyAPIView):
+# ListAPIView works, but doesn't let you delete
+class BookAPIView(generics.RetrieveUpdateDestroyAPIView):
   # permission_classes = (IsAdminUser,)
   queryset = Book.objects.all()
   serializer_class = BookSerializer
 
-class PassageChangeAPIView(generics.RetrieveUpdateDestroyAPIView):
+class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
   # permission_classes = (IsAdminUser,)
   queryset = Passage.objects.all()
   serializer_class = PassageSerializer
