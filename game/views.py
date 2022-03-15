@@ -48,16 +48,16 @@ class TestAPIView(generics.ListCreateAPIView):
       serializer.save(signal=reversed)
 
 class BookList(generics.ListCreateAPIView):
-    # queryset = Book.objects.all()
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
     
     def perform_create(self, serializer):
       book = dict(self.request.data)
-      host_name = self.request.META['HTTP_HOST']
       title = self.request.data["title"]
       simplified_title = simplify_title(title)
       serializer.save(simple_title=simplified_title)
 
+      host_name = self.request.META['HTTP_HOST']
       url = f"http://{host_name}/api/v1/books"
       with urllib.request.urlopen(url) as response:
         books = json.loads(response.read())
@@ -66,30 +66,24 @@ class BookList(generics.ListCreateAPIView):
       gutenberg_pull(book, simplified_title)
       passages = create_passages(host_name, simplified_title)
 
-      for difficulty in range(1, 10):
-        passages_to_add = [ passage for passage in passages if passage['difficulty'] == difficulty ]
-        for passage in passages_to_add:
-          passage["book"] = book_id
-          serializer = PassageSerializer(data=passage)
-          serializer.is_valid()
-          serializer.save()
+      for passage in passages:
+        passage["book"] = book_id
+        passage_serializer = PassageSerializer(data=passage)
+        passage_serializer.is_valid()
+        passage_serializer.save()
 
   
 class PassageList(generics.ListCreateAPIView):
     # queryset = Passage.objects.all()
     serializer_class = PassageSerializer
 
-
-
-
-
     def get_queryset(self):
-      # import pdb 
+      # import pdb
       # pdb.set_trace()
       book_id = self.kwargs['pk']
       difficulty = self.request.query_params.get('difficulty', None)
       if not difficulty is None:
-        # import pdb 
+        # import pdb
         # pdb.set_trace()
         return Passage.objects.filter(book=book_id, difficulty=difficulty)
       else:
@@ -104,8 +98,8 @@ class PassageList(generics.ListCreateAPIView):
 
     # https://stackoverflow.com/questions/9143262/delete-multiple-objects-in-django
 
-    def perform_destroy(self, serializer):
-      self.objects.all().delete()
+    # def perform_destroy(self, serializer):
+    #   self.objects.all().delete()
 
 class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
   queryset = Passage.objects.all()
@@ -126,6 +120,10 @@ class BookAPIView(generics.RetrieveUpdateDestroyAPIView):
   queryset = Book.objects.all()
   serializer_class = BookSerializer
 
+  # def perform_destroy(self, serializer):
+
+
+
 class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
   # permission_classes = (IsAdminUser,)
   queryset = Passage.objects.all()
@@ -134,3 +132,14 @@ class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
 class FilterList(generics.ListCreateAPIView):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
+
+class Signal(generics.ListCreateAPIView):
+    queryset = Signal.objects.all()
+    serializer_class = SignalSerializer
+
+    def perform_create(self, serializer):
+      host_name = self.request.META['HTTP_HOST']
+      pass
+
+    def perform_update(self, serializer):
+      pass

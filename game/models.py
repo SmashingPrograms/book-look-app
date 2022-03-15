@@ -14,7 +14,7 @@ class Book(models.Model):
     author = models.TextField()
     year = models.IntegerField()
     genre = models.TextField()
-    url = models.TextField()
+    url = models.URLField()
     start = models.TextField()
     end = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -41,7 +41,14 @@ class Filter(models.Model):
     def __str__(self):
         return self.string
 
+class Signal(models.Model):
+    difficulty = models.IntegerField(blank=True)
+    genre = models.TextField(blank=True)
+    active = models.BooleanField(blank=True, null=True)
+    passages = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return "Signal"
 
 # The Odyssey
 # The Iliad
-# 
