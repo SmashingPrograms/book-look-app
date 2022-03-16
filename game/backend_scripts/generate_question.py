@@ -1,33 +1,34 @@
 import random
 import os
 import string
-from create_passages import create_passages
+from .create_passages import create_passages
 
-host_name = "localhost:8000"
-book = {
-    'book': 'The Great Gatsby',
-    'simple_title': 'the-great-gatsby',
-    'author': 'F. Scott Fitzgerald',
-    'year': '1925',
-    'genre': 'General',
-    'url': 'https://www.gutenberg.org/files/64317/64317-h/64317-h.htm',
-    'beginning': "In my younger and",
-    'ending': 'into the past.',
-}
-difficulty = 9
-filters = [
-  'fuck',
-  'shit',
-  'bitch',
-  'nigg',
-  'whore',
-  'slut',
-  'negro',
-  'mulatt',
-  'octoroon',
-]
+# host_name = "localhost:8000"
+# book = {
+#     'book': 'The Great Gatsby',
+#     'simple_title': 'the-great-gatsby',
+#     'author': 'F. Scott Fitzgerald',
+#     'year': '1925',
+#     'genre': 'General',
+#     'url': 'https://www.gutenberg.org/files/64317/64317-h/64317-h.htm',
+#     'beginning': "In my younger and",
+#     'ending': 'into the past.',
+# }
+# difficulty = 9
+# filters = [
+#   'fuck',
+#   'shit',
+#   'bitch',
+#   'nigg',
+#   'whore',
+#   'slut',
+#   'negro',
+#   'mulatt',
+#   'octoroon',
+# ]
 
 def generate_question(host_name, book, difficulty, filters):
+  difficulty = int(difficulty)
   passages = create_passages(host_name, book, difficulty, filters)
   extra_passage = create_passages(host_name, book, difficulty, filters, extra=True)['passage']
   # passage_to_blank, passages
@@ -145,34 +146,38 @@ def generate_question(host_name, book, difficulty, filters):
 
   passage_with_blanks = " ".join(expected_passage_words_split)
 
+  passage_before = passage[1]
+  passage_after = passage[2]
+
+  return [passage_with_blanks, expected_words, word_choices, passage_before, passage_after]
 
   # test game
-  count = 0
-  for expected_word in expected_words:
-    count += 1
-    print("PASSAGE:\n")
-    # print(header)
-    print(passage_with_blanks)
-    print("\n\n")
-    print("Your choices:\n")
-    print(word_choices)
-    print("\n")
-    while 1:
-      answer = input(f"Guess word #{count}) ")
-      answer = answer.upper()
-      if answer == expected_word:
-        passage_with_blanks = passage_with_blanks.replace(f"_____({expected_words.index(expected_word)+1})", f"{answer}({expected_words.index(expected_word)+1})")
-        word_choices.remove(expected_word)
-        print("Wow! You got it!")
-        input("Next: ")
-        print("\n\n\n\n")
-        break
-      elif answer == "":
-        print("Type something here please.")
-      else:
-        print("Nope, that's not really right! Sorry! -2 points")
+  # count = 0
+  # for expected_word in expected_words:
+  #   count += 1
+  #   print("PASSAGE:\n")
+  #   # print(header)
+  #   print(passage_with_blanks)
+  #   print("\n\n")
+  #   print("Your choices:\n")
+  #   print(word_choices)
+  #   print("\n")
+  #   while 1:
+  #     answer = input(f"Guess word #{count}) ")
+  #     answer = answer.upper()
+  #     if answer == expected_word:
+  #       passage_with_blanks = passage_with_blanks.replace(f"_____({expected_words.index(expected_word)+1})", f"{answer}({expected_words.index(expected_word)+1})")
+  #       word_choices.remove(expected_word)
+  #       print("Wow! You got it!")
+  #       input("Next: ")
+  #       print("\n\n\n\n")
+  #       break
+  #     elif answer == "":
+  #       print("Type something here please.")
+  #     else:
+  #       print("Nope, that's not really right! Sorry! -2 points")
 
-  print(passage_with_blanks)
-  print("\n\n\n\n\n\nYOU WON THIS ROUND\n\n\n\n\n\n\n\n")
+  # print(passage_with_blanks)
+  # print("\n\n\n\n\n\nYOU WON THIS ROUND\n\n\n\n\n\n\n\n")
 
-generate_question(host_name, book, difficulty, filters)
+# generate_question(host_name, book, difficulty, filters)

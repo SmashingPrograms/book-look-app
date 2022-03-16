@@ -4,9 +4,12 @@ from .models import *
 from .serializers import *
 from .backend_scripts.gutenberg_pull import gutenberg_pull
 from .backend_scripts.create_passages import create_passages
+from .backend_scripts.generate_question import generate_question
 import urllib
 from urllib import request, parse
 import json
+import random
+from django.forms.models import model_to_dict
 # from django.contrib.sites.shortcuts import get_current_site
 
 def simplify_title(title):
@@ -64,13 +67,6 @@ class BookList(generics.ListCreateAPIView):
         book_id = books[len(books)-1]['id']
 
       gutenberg_pull(book, simplified_title)
-      passages = create_passages(host_name, simplified_title)
-
-      for passage in passages:
-        passage["book"] = book_id
-        passage_serializer = PassageSerializer(data=passage)
-        passage_serializer.is_valid()
-        passage_serializer.save()
 
   
 class PassageList(generics.ListCreateAPIView):
@@ -138,8 +134,35 @@ class Signal(generics.ListCreateAPIView):
     serializer_class = SignalSerializer
 
     def perform_create(self, serializer):
-      host_name = self.request.META['HTTP_HOST']
-      pass
+      if self.request.data['active'] == False:
+        Signal.objects.all().delete()
+      else:
+        host_name = self.request.META['HTTP_HOST']
+        difficulty = self.request.data["difficulty"]
+        filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
+        books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
+        print(books)
+        book = random.choice(books)
+
+        prompt = generate_question(host_name, book, difficulty, filters)
+
+        prompt_passage = prompt[0]
+        expected_words = prompt[1]
+        word_choices = prompt[2]
+        passage_before = prompt[3]
+        passage_after = prompt[4]
+        book_title = book["title"]
+        book_author = book["author"]
+        book_year = book["year"]
+        book_genre = book["genre"]
+
+        serializer.save(prompt_passage=prompt_passage, expected_words=expected_words, word_choices=word_choices, passage_before=passage_before, passage_after=passage_after, book_title=book_title, book_author=book_author, book_year=book_year, book_genre=book_genre)
+
+        # for passage in passages:
+        #   passage["book"] = book_id
+        #   passage_serializer = PassageSerializer(data=passage)
+        #   passage_serializer.is_valid()
+        #   passage_serializer.save()
 
     def perform_update(self, serializer):
       pass

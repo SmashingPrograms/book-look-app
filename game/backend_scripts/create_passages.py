@@ -10,9 +10,9 @@ def create_passages(host_name, book, difficulty, filters, extra=False):
   # title = "winesburg-ohio"
   url = f"http://{host_name}/api/v1/filters"
   # url = f"http://localhost:8000/api/v1/filters"
-  book_text = open(f"books/{title}.txt", "r").read()
+  # book_text = open(f"books/{title}.txt", "r").read()
 
-  # book_text = open(f"game/backend_scripts/text.txt", "r").read()
+  book_text = open(f"game/backend_scripts/books/{title}.txt", "r").read()
 
 
   # with urllib.request.urlopen(url) as response:

@@ -45,7 +45,15 @@ class Signal(models.Model):
     difficulty = models.IntegerField(blank=True)
     genre = models.TextField(blank=True)
     active = models.BooleanField(blank=True, null=True)
-    passages = models.JSONField(blank=True, null=True)
+    prompt_passage = models.TextField(blank=True, null=True)
+    expected_words = models.JSONField(blank=True, null=True)
+    word_choices = models.JSONField(blank=True, null=True)
+    passage_before = models.TextField(blank=True, null=True)
+    passage_after = models.TextField(blank=True, null=True)
+    book_title = models.TextField(blank=True, null=True)
+    book_author = models.TextField(blank=True, null=True)
+    book_year = models.IntegerField(blank=True, null=True)
+    book_genre = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return "Signal"
