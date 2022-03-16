@@ -1,14 +1,17 @@
 import urllib.request
 import json
-
-def create_passages(host_name, simplified_title):
+import random
+#host_name, simplified_title
+def create_passages():
   # get filters in there
 
-  title = simplified_title
+  # title = simplified_title
+  title = "winnie-the-pooh"
+  # url = f"http://{host_name}/api/v1/filters"
+  url = f"http://localhost:8000/api/v1/filters"
   book_text = open(f"game/backend_scripts/books/{title}.txt", "r").read()
 
 
-  url = f"http://{host_name}/api/v1/filters"
   with urllib.request.urlopen(url) as response:
     filter_list = json.loads(response.read())
     filters = [ filter['string'] for filter in filter_list ]
@@ -67,4 +70,18 @@ def create_passages(host_name, simplified_title):
         count = 0
       index += 1
 
-  return passages
+
+
+
+
+  while 1:
+    primary_passage = passages[random.randint(1, len(passages)-1)]
+    if primary_passage["usable"] == True:
+      break
+
+  passage_before = passages[index(primary_passage)-1]
+  passage_after = passages[index(primary_passage)+1]
+  
+  passages_to_return = [primary_passage, passage_before, passage_after]
+
+  return passages_to_return

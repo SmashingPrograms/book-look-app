@@ -1,17 +1,35 @@
 import urllib.request
 import json
-
-def create_passages(host_name, simplified_title, difficulty):
+import random
+#host_name, simplified_title, difficulty
+def create_passages():
   # get filters in there
 
-  title = simplified_title
-  book_text = open(f"game/backend_scripts/books/{title}.txt", "r").read()
+  # title = simplified_title
+  difficulty = 2
+  title = "winesburg-ohio"
+  # url = f"http://{host_name}/api/v1/filters"
+  url = f"http://localhost:8000/api/v1/filters"
+  book_text = open(f"books/{title}.txt", "r").read()
+
+  # book_text = open(f"game/backend_scripts/text.txt", "r").read()
 
 
-  url = f"http://{host_name}/api/v1/filters"
-  with urllib.request.urlopen(url) as response:
-    filter_list = json.loads(response.read())
-    filters = [ filter['string'] for filter in filter_list ]
+  # with urllib.request.urlopen(url) as response:
+  #   filter_list = json.loads(response.read())
+  #   filters = [ filter['string'] for filter in filter_list ]
+
+  filters = [
+    'fuck',
+    'shit',
+    'bitch',
+    'nigg',
+    'whore',
+    'slut',
+    'negro',
+    'mulatt',
+    'octoroon',
+  ]
 
   max_difficulty = 10
 
@@ -66,4 +84,23 @@ def create_passages(host_name, simplified_title, difficulty):
       count = 0
     index += 1
 
-  return passages
+
+
+
+
+
+  while 1:
+    primary_passage = passages[random.randint(1, len(passages)-1)]
+    if primary_passage["usable"] == True:
+      break
+
+  passage_before = passages[passages.index(primary_passage)-1]
+  passage_after = passages[passages.index(primary_passage)+1]
+  
+  passages_to_return = [primary_passage, passage_before, passage_after]
+
+  print(passages_to_return)
+
+  return passages_to_return
+
+create_passages()
