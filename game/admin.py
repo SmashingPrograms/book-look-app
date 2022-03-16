@@ -4,6 +4,4 @@ from .models import *
 # Register your models here.
 
 admin.site.register(Book)
-admin.site.register(Passage)
 admin.site.register(Signal)
-admin.site.register(Test)

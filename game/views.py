@@ -41,15 +41,6 @@ def simplify_title(title):
 
   return title
 
-
-class TestAPIView(generics.ListCreateAPIView):
-    queryset = Test.objects.all()
-    serializer_class = TestSerializer
-    
-    def perform_create(self, serializer):
-      reversed = self.request.data["signal"][::-1]
-      serializer.save(signal=reversed)
-
 class BookList(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -68,22 +59,6 @@ class BookList(generics.ListCreateAPIView):
 
       gutenberg_pull(book, simplified_title)
 
-  
-class PassageList(generics.ListCreateAPIView):
-    # queryset = Passage.objects.all()
-    serializer_class = PassageSerializer
-
-    def get_queryset(self):
-      # import pdb
-      # pdb.set_trace()
-      book_id = self.kwargs['pk']
-      difficulty = self.request.query_params.get('difficulty', None)
-      if not difficulty is None:
-        # import pdb
-        # pdb.set_trace()
-        return Passage.objects.filter(book=book_id, difficulty=difficulty)
-      else:
-        return Passage.objects.filter(book=book_id)
 
   # def get_queryset(self):
   #   book_id = self.kwargs['book_id']
@@ -97,18 +72,6 @@ class PassageList(generics.ListCreateAPIView):
     # def perform_destroy(self, serializer):
     #   self.objects.all().delete()
 
-class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Passage.objects.all()
-  serializer_class = PassageSerializer
-
-  # def perform_create(self, serializer):
-  #   print("sdaogasodkgksoadgkosdkogoksdkof")
-
-  # https://stackoverflow.com/questions/9143262/delete-multiple-objects-in-django
-
-  def perform_destroy(self, serializer):
-    PassageList.objects.all().delete()
-
 
 # ListAPIView works, but doesn't let you delete
 class BookAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -120,10 +83,10 @@ class BookAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
-  # permission_classes = (IsAdminUser,)
-  queryset = Passage.objects.all()
-  serializer_class = PassageSerializer
+# class PassageAPIView(generics.RetrieveUpdateDestroyAPIView):
+#   # permission_classes = (IsAdminUser,)
+#   queryset = Passage.objects.all()
+#   serializer_class = PassageSerializer
 
 class FilterList(generics.ListCreateAPIView):
     queryset = Filter.objects.all()
@@ -155,6 +118,7 @@ class SignalList(generics.ListCreateAPIView):
 
         serializer.save(prompt_passage=prompt_passage, expected_words=expected_words, word_choices=word_choices, passage_before=passage_before, passage_after=passage_after, book_title=book_title, book_author=book_author, book_year=book_year, book_genre=book_genre)
       else:
+        print(Signal.objects.all())
         Signal.objects.all().delete()
 
         # for passage in passages:
