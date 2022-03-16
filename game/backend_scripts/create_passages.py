@@ -1,15 +1,15 @@
 import urllib.request
 import json
 import random
-#host_name, simplified_title, difficulty
-def create_passages():
+#
+def create_passages(host_name, book, difficulty, filters, extra=False):
   # get filters in there
 
-  # title = simplified_title
-  difficulty = 2
-  title = "winesburg-ohio"
-  # url = f"http://{host_name}/api/v1/filters"
-  url = f"http://localhost:8000/api/v1/filters"
+  title = book["simple_title"]
+  # difficulty = 2
+  # title = "winesburg-ohio"
+  url = f"http://{host_name}/api/v1/filters"
+  # url = f"http://localhost:8000/api/v1/filters"
   book_text = open(f"books/{title}.txt", "r").read()
 
   # book_text = open(f"game/backend_scripts/text.txt", "r").read()
@@ -18,18 +18,6 @@ def create_passages():
   # with urllib.request.urlopen(url) as response:
   #   filter_list = json.loads(response.read())
   #   filters = [ filter['string'] for filter in filter_list ]
-
-  filters = [
-    'fuck',
-    'shit',
-    'bitch',
-    'nigg',
-    'whore',
-    'slut',
-    'negro',
-    'mulatt',
-    'octoroon',
-  ]
 
   max_difficulty = 10
 
@@ -59,6 +47,7 @@ def create_passages():
   def make_unusable(description):
     passage_dict["usable"] = False
     passage_dict["unusability_desc"] = description
+  
   count = 0
   index = 0
   passage_num = 0
@@ -70,6 +59,8 @@ def create_passages():
         make_unusable("Contains at least one trigger word")
     # if count >= length or split_for_passages.index(word) == len(split_for_passages)-1:
     if count >= length or index == len(split_for_passages)-1:
+      if index == 0:
+        make_unusable("Beginning passage; will cause problems with passage parsing")
       if index == len(split_for_passages)-1:
         make_unusable("Ending passage; will be too short for difficulty given")
       passage_dict["difficulty"] = difficulty
@@ -90,17 +81,18 @@ def create_passages():
 
 
   while 1:
-    primary_passage = passages[random.randint(1, len(passages)-1)]
+    primary_passage = random.choice(passages)
     if primary_passage["usable"] == True:
       break
+    
+  if extra == False:
+    passage_before = passages[passages.index(primary_passage)-1]
+    passage_after = passages[passages.index(primary_passage)+1]
+    
+    passages_to_return = [primary_passage, passage_before, passage_after]
 
-  passage_before = passages[passages.index(primary_passage)-1]
-  passage_after = passages[passages.index(primary_passage)+1]
-  
-  passages_to_return = [primary_passage, passage_before, passage_after]
+    print(passages_to_return)
 
-  print(passages_to_return)
-
-  return passages_to_return
-
-create_passages()
+    return passages_to_return
+  else:
+    return primary_passage
