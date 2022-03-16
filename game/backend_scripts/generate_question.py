@@ -146,8 +146,8 @@ def generate_question(host_name, book, difficulty, filters):
 
   passage_with_blanks = " ".join(expected_passage_words_split)
 
-  passage_before = passage[1]
-  passage_after = passage[2]
+  passage_before = passages[1]['passage']
+  passage_after = passages[2]['passage']
 
   return [passage_with_blanks, expected_words, word_choices, passage_before, passage_after]
 

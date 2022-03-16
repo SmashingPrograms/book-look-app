@@ -8,7 +8,7 @@ urlpatterns = [
     path('books/<int:pk>/', BookAPIView.as_view()),
     path('books/', BookList.as_view(), name='booklist'),
     path('books/<int:pk>/passages/', PassageList.as_view()),
-    path('signal/', Signal.as_view()),
+    path('signal/', SignalList.as_view()),
     path('filters', FilterList.as_view(), name='filterlist'),
 ]
 

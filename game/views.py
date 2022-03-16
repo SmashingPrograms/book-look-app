@@ -129,19 +129,16 @@ class FilterList(generics.ListCreateAPIView):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
 
-class Signal(generics.ListCreateAPIView):
+class SignalList(generics.ListCreateAPIView):
     queryset = Signal.objects.all()
     serializer_class = SignalSerializer
 
     def perform_create(self, serializer):
-      if self.request.data['active'] == False:
-        Signal.objects.all().delete()
-      else:
+      if 'active' in self.request.data:
         host_name = self.request.META['HTTP_HOST']
         difficulty = self.request.data["difficulty"]
         filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
         books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
-        print(books)
         book = random.choice(books)
 
         prompt = generate_question(host_name, book, difficulty, filters)
@@ -157,6 +154,8 @@ class Signal(generics.ListCreateAPIView):
         book_genre = book["genre"]
 
         serializer.save(prompt_passage=prompt_passage, expected_words=expected_words, word_choices=word_choices, passage_before=passage_before, passage_after=passage_after, book_title=book_title, book_author=book_author, book_year=book_year, book_genre=book_genre)
+      else:
+        Signal.objects.all().delete()
 
         # for passage in passages:
         #   passage["book"] = book_id
