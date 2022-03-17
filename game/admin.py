@@ -5,3 +5,4 @@ from .models import *
 
 admin.site.register(Book)
 admin.site.register(Signal)
+# admin.site.register(Passage)

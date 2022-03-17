@@ -29,6 +29,7 @@ def simplify_title(title):
     ".",
     "$",
     ",",
+    "'",
   ]
 
   for char in chars_to_simplify:
@@ -79,6 +80,14 @@ class BookAPIView(generics.RetrieveUpdateDestroyAPIView):
   queryset = Book.objects.all()
   serializer_class = BookSerializer
 
+  def perform_update(self, serializer):
+    book = dict(self.request.data)
+    title = self.request.data["title"]
+    simplified_title = simplify_title(title)
+    serializer.save(simple_title=simplified_title)
+
+    gutenberg_pull(book, simplified_title)
+
   # def perform_destroy(self, serializer):
 
 
@@ -97,29 +106,27 @@ class SignalList(generics.ListCreateAPIView):
     serializer_class = SignalSerializer
 
     def perform_create(self, serializer):
-      if 'active' in self.request.data:
-        host_name = self.request.META['HTTP_HOST']
-        difficulty = self.request.data["difficulty"]
-        filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
-        books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
-        book = random.choice(books)
+      Signal.objects.all().delete()
+      host_name = self.request.META['HTTP_HOST']
+      difficulty = self.request.data["difficulty"]
+      filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
+      books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
+      book = random.choice(books)
 
-        prompt = generate_question(host_name, book, difficulty, filters)
+      prompt = generate_question(host_name, book, difficulty, filters)
 
-        prompt_passage = prompt[0]
-        expected_words = prompt[1]
-        word_choices = prompt[2]
-        passage_before = prompt[3]
-        passage_after = prompt[4]
-        book_title = book["title"]
-        book_author = book["author"]
-        book_year = book["year"]
-        book_genre = book["genre"]
+      prompt_passage = prompt[0]
+      expected_words = prompt[1]
+      word_choices = prompt[2]
+      passage_before = prompt[3]
+      passage_after = prompt[4]
+      book_title = book["title"]
+      book_author = book["author"]
+      book_year = book["year"]
+      book_genre = book["genre"]
 
-        serializer.save(prompt_passage=prompt_passage, expected_words=expected_words, word_choices=word_choices, passage_before=passage_before, passage_after=passage_after, book_title=book_title, book_author=book_author, book_year=book_year, book_genre=book_genre)
-      else:
-        print(Signal.objects.all())
-        Signal.objects.all().delete()
+      serializer.save(prompt_passage=prompt_passage, expected_words=expected_words, word_choices=word_choices, passage_before=passage_before, passage_after=passage_after, book_title=book_title, book_author=book_author, book_year=book_year, book_genre=book_genre)
+        
 
         # for passage in passages:
         #   passage["book"] = book_id

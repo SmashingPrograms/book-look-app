@@ -3,6 +3,7 @@ import {useState, useEffect} from "react";
 import Cookies from 'js-cookie';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import Game from './components/game';
 
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
   const homeScreen = (
     <>
       <button name='logOut' type='button' onClick={handleLogout}>Logout</button>
-      <button name='logOut' type='button' onClick={testInput}>Send test data!</button>
+      <Game />
     </>
   )
 
