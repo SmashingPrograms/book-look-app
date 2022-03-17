@@ -35,11 +35,9 @@ function Game(props) {
 
   if (data) {
     promptPassage = data?.prompt_passage
-    console.log("Got here")
     promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (match, i) => (
-      <button key={match}>{match}</button>
+      <button key={match}>____________{match}</button>
     ));
-    console.log("Got here too")
     // for (let i = 1; i <= blanks; i++) {
     //   const substring = new RegExp(``);
     // promptPassage = promptPassage.replace(/_____\(([0-9])\)/g, <span key='$1'>_____</span>)

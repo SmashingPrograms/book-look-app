@@ -134,7 +134,7 @@ def generate_question(host_name, book, difficulty, filters):
           to_instance += 1
           if to_instance != instance_in_passage:
             continue
-        expected_passage_words_split[parse_index] = f"_____({expected_words.index(word)+1})"
+        expected_passage_words_split[parse_index] = f"_____({expected_words.index(word)})"
         break
           
         
