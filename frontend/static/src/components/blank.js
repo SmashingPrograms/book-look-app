@@ -9,20 +9,17 @@ function Blank({ expectedIndex, data, setWordChoices} ) {
  
   const addChoiceToBlank = async (choice) => {
    
-   
-    const chosenWord = wordChoices[choice];
+    // alert(choice)
+    const chosenWord = choice;
+    console.log(chosenWord, 'is chosen word')
     const expectedWord = expectedWords[expectedIndex];
+    console.log(expectedWord, 'is expected word')
     if (chosenWord === expectedWord) {
       alert("You're right! That's correct!");
       setBlank(chosenWord);
       const updatedWordChoices = [...wordChoices]
       updatedWordChoices.splice(updatedWordChoices.indexOf(chosenWord), 1);
-      // handleChoice(updatedWordChoices);
       setWordChoices(updatedWordChoices);
-      // data.word_choices = [...wordChoices];
-      // console.log('data', data);
-      // setData(data);
-      // setWordChoices(updatedWordChoices);
     } else {
       alert("WRONG!!!!!!")
     };
@@ -30,7 +27,8 @@ function Blank({ expectedIndex, data, setWordChoices} ) {
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "button",
-    drop: (item) => addChoiceToBlank(item.id),
+    // drop: (item) => addChoiceToBlank(item.word),
+    drop: (item) => addChoiceToBlank(item.word),
     collect: (monitor) => ({
       isOver: !monitor.isOver(),
     }),

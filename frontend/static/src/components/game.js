@@ -53,7 +53,7 @@ function Game(props) {
       <Blank key={i} id={i} data={data} setData={setData} setWordChoices={setWordChoices} expectedIndex={expectedIndex} />
     ));
     wordChoicesHTML = wordChoices.map((word, index) => (
-      <Choice key={index} id={index} word={word} />
+      <Choice key={word} id={index} word={word} />
       // <button key={index}>{word}</button>
     ));
   }
