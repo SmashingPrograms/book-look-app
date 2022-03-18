@@ -28,6 +28,7 @@ from .create_passages import create_passages
 # ]
 
 def generate_question(host_name, book, difficulty, filters):
+  number_of_blanks = 6
   difficulty = int(difficulty)
   passages = create_passages(host_name, book, difficulty, filters)
   extra_passage = create_passages(host_name, book, difficulty, filters, extra=True)['passage']
@@ -77,7 +78,6 @@ def generate_question(host_name, book, difficulty, filters):
 
     # generate word choices
 
-    number_of_blanks = 6
     expected_words = []
 
     for i in range(0, number_of_blanks):
@@ -91,6 +91,10 @@ def generate_question(host_name, book, difficulty, filters):
   expected_passage_words_split = passage.split(" ")
 
   expected_words = generate_expected_words(passage)
+  number_of_expected_words = len(expected_words)
+  if number_of_expected_words < number_of_blanks:
+    print(f"IT WAS {number_of_expected_words}!!!! TRYING AGAIN")
+    generate_question(host_name, book, difficulty, filters)
   print("Got here")
   while 1:
     extra_words = generate_expected_words(extra_passage)

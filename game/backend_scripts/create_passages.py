@@ -91,8 +91,6 @@ def create_passages(host_name, book, difficulty, filters, extra=False):
     
     passages_to_return = [primary_passage, passage_before, passage_after]
 
-    print(passages_to_return)
-
     return passages_to_return
   else:
     return primary_passage

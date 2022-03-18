@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 import reactStringReplace from 'react-string-replace';
+import Choice from './choice';
 
 function Game(props) {
   const [data, setData] = useState(null)
@@ -9,7 +10,7 @@ function Game(props) {
     event.preventDefault();
 
     const data = {
-      difficulty: 5,
+      difficulty: 9,
     }
 
     const response = await fetch('/api/v1/signal/', {
@@ -36,7 +37,7 @@ function Game(props) {
   if (data) {
     promptPassage = data?.prompt_passage
     promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (match, i) => (
-      <button key={match}>____________{match}</button>
+      <input type="text" key={match} />
     ));
     // for (let i = 1; i <= blanks; i++) {
     //   const substring = new RegExp(``);
@@ -65,7 +66,8 @@ function Game(props) {
       </div>
       <div>
         {data?.word_choices.map((word, index) => (
-          <button key={index}>{word}</button>
+          <Choice key={index} id={index} word={word} />
+          // <button key={index}>{word}</button>
         ))}
       </div>
       <button>Get a hint</button>
