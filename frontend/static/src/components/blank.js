@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-function Blank({ expected_word, data }) {
+function Blank({ expectedIndex, data } ) {
   // const [{ isDragging }, drag] = useDrag(() => ({
   //   type: "input",
   //   item: { id: id },
@@ -9,19 +9,44 @@ function Blank({ expected_word, data }) {
   //     isDragging: !!monitor.isDragging(),
   //   }),
   // }));
-  // console.log(expected_word)
-  const [blank, setBlank] = useState([]);
+  const [blank, setBlank] = useState('');
+  const wordChoices = data.word_choices;
+  // const [blankWordChoices, setBlankWordChoices] = useState(null)
   // console.log(data)
+  // console.log(wordChoices)
+  // var wordChoicesVar;
+  // if (wordChoices) {
+  //   wordChoicesVar = [...wordChoices];
+  // };
+  // var wordChoicesVar;
+  // if (wordChoices) {
+  //   setBlankWordChoices([...wordChoices])
+  //   setWordChoices(blankWordChoices)
+  // }
 
-  const expected_words = data.expected_words;
-  const word_choices = data.word_choices;
-
+  // if (blankWordChoices) {
+  //   wordChoicesVar = [...blankWordChoices];
+  // }
+  const expectedWords = data.expected_words;
+  // var x = [1, 2];
   const addChoiceToBlank = (choice) => {
     // const pictureList = PictureList.filter((picture) => id === picture.id);
-    const condition = (word_choices[choice] === expected_words[expected_word])
-    console.log(`In ways I got here :f ${condition}`)
+    // console.log(wordChoices[1], 'check me')
+    // console.log(wordChoices, 'check here')
+
+    // console.log(wordChoicesVar, "right after")
+    const chosenWord = wordChoices[choice]
+    const expectedWord = expectedWords[expectedIndex]
+    if (chosenWord === expectedWord) {
+      alert("You're right! That's correct!");
+      setBlank(chosenWord);
+      // wordChoicesVar.splice(chosenWord, 1)
+      // setBlankWordChoices(wordChoicesVar);
+    } else {
+      alert("WRONG!!!!!!")
+    };
+    // console.log(`In ways I got here :f ${condition}`)
     // console.log(data.word_choices[choice])
-    setBlank(choice);
   };
 
   const [{ isOver }, drop] = useDrop(() => ({
@@ -33,11 +58,19 @@ function Blank({ expected_word, data }) {
   }));
 
   return (
-      <input
-        // key={key}
-        ref={drop}
-        type="text"
-      />
+    <>
+      {
+        (blank === '')
+        ?
+          <input
+            // key={key}
+            ref={drop}
+            type="text"
+          />
+        :
+          blank
+      }
+    </>
   );
 };
 

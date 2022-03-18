@@ -8,6 +8,7 @@ import Blank from './blank';
 
 function Game(props) {
   const [data, setData] = useState(null)
+  // const [wordChoices, setWordChoices] = useState(null)
   const handleSubmit = async event => {
     event.preventDefault();
 
@@ -30,6 +31,7 @@ function Game(props) {
       const responseData = await response.json();
       console.log(responseData)
       setData(responseData)
+      // setWordChoices([...responseData.word_choices])
     };
   };
 
@@ -38,11 +40,11 @@ function Game(props) {
 
   if (data) {
     promptPassage = data?.prompt_passage
-    promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (expected_word, i) => (
+    // console.log(wordChoices, "Game component")
+    promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (expectedIndex, i) => (
       // <input type="text" key={match} />
       // <Blank key={i} id={i} word={match} data={data} />
-      <Blank key={i} id={i} data={data} expected_word={expected_word} />
-
+      <Blank key={i} id={i} data={data} expectedIndex={expectedIndex} />
     ));
   }
 
@@ -52,7 +54,6 @@ function Game(props) {
       {promptPassage ? promptPassage : ""}
     </>
   )
-
   const game = (
     <>
       <p>{data?.book_title} ({data?.book_year}) by {data?.book_author}</p>
@@ -69,6 +70,7 @@ function Game(props) {
       <button>Get a hint</button>
     </>
   )
+
 
   return (
     <>
