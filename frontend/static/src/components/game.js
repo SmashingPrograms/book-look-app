@@ -1,11 +1,13 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
+import { useDrop } from "react-dnd";
 import reactStringReplace from 'react-string-replace';
 import Choice from './choice';
+import Blank from './blank';
+
 
 function Game(props) {
   const [data, setData] = useState(null)
-
   const handleSubmit = async event => {
     event.preventDefault();
 
@@ -36,18 +38,12 @@ function Game(props) {
 
   if (data) {
     promptPassage = data?.prompt_passage
-    promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (match, i) => (
-      <input type="text" key={match} />
+    promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (expected_word, i) => (
+      // <input type="text" key={match} />
+      // <Blank key={i} id={i} word={match} data={data} />
+      <Blank key={i} id={i} data={data} expected_word={expected_word} />
+
     ));
-    // for (let i = 1; i <= blanks; i++) {
-    //   const substring = new RegExp(``);
-    // promptPassage = promptPassage.replace(/_____\(([0-9])\)/g, <span key='$1'>_____</span>)
-    // }
-    // const blankInstances = .matchAll(substring);
-    // const blanks = [];
-    // for (const instance of blankInstances) {
-    //   blanks.push(instance[0]);
-    // };
   }
 
   // console.log(<span key='1'>_____</span>)
