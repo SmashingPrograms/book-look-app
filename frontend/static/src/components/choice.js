@@ -1,14 +1,8 @@
 import React from "react";
 import { useDrag } from "react-dnd";
 
-function Choice({ id, word }) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "button",
-    item: { id: id, word: word },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
+function Choice({ id, word, wordChoices, setWordChoices }) {
+  console.log("I'm in Choice now")
 
   return (
     <>

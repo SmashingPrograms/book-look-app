@@ -1,15 +1,19 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-function Blank({ expectedIndex, data, setWordChoices} ) {
+function Blank({ expectedIndex, wordChoices, setWordChoices, data }) {
  
   const [blank, setBlank] = useState('');
-  const wordChoices = [...data.word_choices];
-  const expectedWords = data.expected_words;
- 
-  const addChoiceToBlank = async (choice) => {
+  // props.wordChoices = Game.props.wordChoices;
+  // console.log(wordChoices, "in Blank")
+
+  console.log(wordChoices, "When it comes into Blanks")
+  
+  const addChoiceToBlank = (choice, wordChoices) => {
    
     // alert(choice)
+    console.log("beginning of addChoice", wordChoices)
+    const expectedWords = data.expected_words;
     const chosenWord = choice;
     console.log(chosenWord, 'is chosen word')
     const expectedWord = expectedWords[expectedIndex];
@@ -17,22 +21,19 @@ function Blank({ expectedIndex, data, setWordChoices} ) {
     if (chosenWord === expectedWord) {
       alert("You're right! That's correct!");
       setBlank(chosenWord);
-      const updatedWordChoices = [...wordChoices]
-      updatedWordChoices.splice(updatedWordChoices.indexOf(chosenWord), 1);
-      setWordChoices(updatedWordChoices);
+      // const updatedWordChoices = [...wordChoices]
+      // console.log(updatedWordChoices, "updated word choices")
+      // updatedWordChoices.splice(updatedWordChoices.indexOf(chosenWord), 1);
+      console.log("wordChoices +++", wordChoices)
+      const updatedData = wordChoices.filter((word) => word !== chosenWord);
+      console.log("updatedData +++", updatedData)
+      // console.log("set wordchoices stack: ", setWordChoices.stack())
+      setWordChoices(updatedData);
     } else {
       alert("WRONG!!!!!!")
     };
   };
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "button",
-    // drop: (item) => addChoiceToBlank(item.word),
-    drop: (item) => addChoiceToBlank(item.word),
-    collect: (monitor) => ({
-      isOver: !monitor.isOver(),
-    }),
-  }));
 
   return (
     <>
