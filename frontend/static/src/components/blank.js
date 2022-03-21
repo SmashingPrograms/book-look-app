@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-function Blank({ expectedIndex, wordChoices, setWordChoices, data }) {
+function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick }) {
  
   const [blank, setBlank] = useState('');
   // props.wordChoices = Game.props.wordChoices;
@@ -44,6 +44,14 @@ function Blank({ expectedIndex, wordChoices, setWordChoices, data }) {
             // key={key}
             // ref={drop}
             // type="text"
+            onClick={() => {
+              (blankClick === expectedWord)
+              ?
+              setBlankClick('')
+              :
+              setBlankClick(expectedWord);
+            }}
+            style={{backgroundColor: (blankClick === expectedWord) ? 'lightblue' : 'lightgray' }}
           >
             _______________
           </button>

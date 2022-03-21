@@ -77,7 +77,7 @@ function Game(props) {
     promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (expectedIndex, i) => (
       // <input type="text" key={match} />
       // <Blank key={i} id={i} word={match} data={data} />
-      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedIndex={expectedIndex} />
+      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} />
     ));
     wordChoicesHTML = wordChoices.map((word, index) => (
       <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} />
