@@ -140,12 +140,24 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
     <>
       <h2>Get a hint:</h2>
       <ul>
+        {
+        hintsTriggered?.hasOwnProperty('passageBefore')
+        ?
+        ''
+        :
         <li>
           <a href="#" onClick={() => setMultiple('passageBefore', true)}>Get previous passage</a> for more context
         </li>
+        }
+        {
+        hintsTriggered?.hasOwnProperty('passageAfter')
+        ?
+        ''
+        :
         <li>
           <a href="#" onClick={() => setMultiple('passageAfter', true)}>Get next passage</a> for more context
         </li>
+        }
         <li>
           <a href="#" onClick={() => getDatamuseData('ml', 'similar words')}>Get words with similar meanings</a>
         </li>
