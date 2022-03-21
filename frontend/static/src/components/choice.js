@@ -1,8 +1,13 @@
 import { React, useState } from "react";
 
-function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick, setChoiceClick, matchChoiceToBlank }) {
+function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick, setChoiceClick, matchChoiceToBlank, setHint }) {
   console.log("I'm in Choice now")
   // console.log(click)
+
+  function setBoth(word) {
+    setChoiceClick(word)
+    setHint('')
+  }
 
   return (
     <>
@@ -15,7 +20,7 @@ function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick
           ?
           setChoiceClick('')
           :
-          setChoiceClick(word);
+          setBoth(word);
           // matchChoiceToBlank();
         }}
         style={{backgroundColor: (word === choiceClick) ? 'lightblue' : 'lightgray' }}

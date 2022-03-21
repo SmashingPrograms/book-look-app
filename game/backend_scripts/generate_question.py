@@ -78,6 +78,7 @@ def generate_question(host_name, book, difficulty, filters):
       print("Got past if word in passage_words")
 
       passage_words.append(word)
+      print("Got past the append")
 
     # print(passage_words)
 

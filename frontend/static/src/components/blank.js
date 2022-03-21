@@ -1,7 +1,8 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import Hints from "./hints";
 
-function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick, matchChoiceToBlank, choiceClick, setChoiceClick }) {
+function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick, matchChoiceToBlank, choiceClick, setChoiceClick, hint, setHint }) {
  
   const [blank, setBlank] = useState('');
   // props.wordChoices = Game.props.wordChoices;
@@ -38,35 +39,49 @@ function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, se
   //   };
   // };
 
-
+  function setBoth() {
+    setHint('');
+    setBlankClick('');
+  }
   return (
     <>
       {
           (blank === '')
         ?
-          <button
-            // key={key}
-            // ref={drop}
-            // type="text"
-            onClick={() => {
-              // matchChoiceToBlank(choiceClick);
+          <>
+            <button
+              // key={key}
+              // ref={drop}
+              // type="text"
+              onClick={() => {
+                // matchChoiceToBlank(choiceClick);
+                (blankClick === expectedWord)
+                ?
+                setBoth()
+                // matchChoiceToBlank()
+                :
+                setBlankClick(expectedWord);
+              }}
+              style={{backgroundColor: (blankClick === expectedWord) ? 'lightblue' : 'lightgray' }}
+            >
+              _______________
+            </button>
+            {
               (blankClick === expectedWord)
               ?
-              setBlankClick('')
-              // matchChoiceToBlank()
+              <button
+                onClick={() => {
+                  hint
+                  ?
+                  setHint('')
+                  :
+                  setHint(expectedWord)
+                }}
+              >Hint</button>
               :
-              setBlankClick(expectedWord);
-              if (choiceClick === 'SET_BLANK_TO_WORD') {
-                console.log("Did I even get here?")
-                setBlankClick('');
-                setChoiceClick('');
-                setBlank(expectedWord);
-              };
-            }}
-            style={{backgroundColor: (blankClick === expectedWord) ? 'lightblue' : 'lightgray' }}
-          >
-            _______________
-          </button>
+              ''
+            }
+          </>
         :
           blank
       }

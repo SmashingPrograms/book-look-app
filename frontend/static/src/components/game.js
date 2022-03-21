@@ -4,6 +4,8 @@ import { useDrop } from "react-dnd";
 import reactStringReplace from 'react-string-replace';
 import Choice from './choice';
 import Blank from './blank';
+import Hints from './hints';
+import PreviousHints from './previousHints';
 
 
 function Game(props) {
@@ -12,6 +14,18 @@ function Game(props) {
   const [wordChoices, setWordChoices] = useState([]);
   const [choiceClick, setChoiceClick] = useState('');
   const [blankClick, setBlankClick] = useState('');
+  const [hint, setHint] = useState('');
+  const [hintsTriggered, setHintsTriggered] = useState(null);
+
+/*
+{
+    passageBefore: false,
+    passageAfter: false,
+    similarWords: [],
+    rhymes: [],
+  }
+*/
+
   const [guessedCorrect, setGuessedCorrect] = useState([]);
 
   const signal = {
@@ -97,38 +111,18 @@ function Game(props) {
     };
   };
 
+
+
+
+
+  
   useEffect(() => matchChoiceToBlank());
 
-  // const handleChoice = (updatedWordChoices) => {
-  //   console.log('firing', updatedWordChoices);
-  //   setWordChoices(updatedWordChoices);
-  // }
 
-  // const addChoiceToBlank = (choice, expectedIndex, setBlank) => {
-   
-  //   // alert(choice)
-  //   const expectedWords = data.expected_words;
-  //   const chosenWord = choice;
-  //   console.log(chosenWord, 'is chosen word')
-  //   const expectedWord = expectedWords[expectedIndex];
-  //   console.log(expectedWord, 'is expected word')
-  //   if (chosenWord === expectedWord) {
-  //     alert("You're right! That's correct!");
-  //     setBlank(chosenWord);
-  //     // const updatedWordChoices = [...wordChoices]
-  //     // console.log(updatedWordChoices, "updated word choices")
-  //     // updatedWordChoices.splice(updatedWordChoices.indexOf(chosenWord), 1);
-  //     const updatdData = wordChoices.filter((word) => word !== chosenWord);
-  //     console.log("updatdData +++", updatdData);
-  //     setWordChoices(updatdData);
-  //   } else {
-  //     alert("WRONG!!!!!!")
-  //   };
-  // };
+
 
   let wordChoicesHTML;
   let promptPassage;
-  let blanks = 6;
   // useEffect(() => {
   //   console.log("Got to useeffect Game")
   if (data) {
@@ -141,14 +135,14 @@ function Game(props) {
       ?
       data.expected_words[expectedIndex].toString()
       :
-      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} matchChoiceToBlank={matchChoiceToBlank} choiceClick={choiceClick} setChoiceClick={setChoiceClick} />
+      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} matchChoiceToBlank={matchChoiceToBlank} choiceClick={choiceClick} setChoiceClick={setChoiceClick} hint={hint} setHint={setHint} />
     ));
     wordChoicesHTML = wordChoices.map((word, index) => (
       guessedCorrect.includes(word)
       ?
       ''
       :
-      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} matchChoiceToBlank={matchChoiceToBlank} blankClick={blankClick} />
+      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} matchChoiceToBlank={matchChoiceToBlank} blankClick={blankClick} setHint={setHint} />
       // <button key={index}>{word}</button>
     ));
   }
@@ -159,7 +153,11 @@ function Game(props) {
   const gamePrompt = (
     <>
       <div>
+        . . .
+        {hintsTriggered?.passageBefore ? ` ${data.passage_before} ` : ''}
         {promptPassage ? promptPassage : ""}
+        {hintsTriggered?.passageAfter ? ` ${data.passage_after} ` : ''}
+        . . .
       </div>
       <div>
         {wordChoices ? wordChoicesHTML : ""}
@@ -174,7 +172,17 @@ function Game(props) {
       <div>
         {gamePrompt}
       </div>
-      <button>Get a hint</button>
+      {
+        hint
+        ?
+        <Hints hint={hint} setHint={setHint} hintsTriggered={hintsTriggered} setHintsTriggered={setHintsTriggered} />
+        :
+        hintsTriggered
+        ?
+        <PreviousHints hintsTriggered={hintsTriggered} />
+        :
+        ''
+      }
     </>
   )
 
