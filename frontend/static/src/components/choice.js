@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 
-function Choice({ id, word, wordChoices, setWordChoices, choiceClick, setChoiceClick }) {
+function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick, setChoiceClick, matchChoiceToBlank }) {
   console.log("I'm in Choice now")
   // console.log(click)
 
@@ -10,11 +10,13 @@ function Choice({ id, word, wordChoices, setWordChoices, choiceClick, setChoiceC
         // ref={drag}
         // style={{ border: isDragging ? "2px solid blue" : "0px" }}
         onClick={() => {
+          // matchChoiceToBlank(blankClick);
           (choiceClick === word)
           ?
           setChoiceClick('')
           :
           setChoiceClick(word);
+          // matchChoiceToBlank();
         }}
         style={{backgroundColor: (word === choiceClick) ? 'lightblue' : 'lightgray' }}
       >

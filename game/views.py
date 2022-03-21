@@ -110,6 +110,7 @@ class SignalList(generics.ListCreateAPIView):
       host_name = self.request.META['HTTP_HOST']
       difficulty = self.request.data["difficulty"]
       filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
+      print("filters are, ", filters)
       books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
       book = random.choice(books)
 

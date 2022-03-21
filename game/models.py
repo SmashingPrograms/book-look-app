@@ -35,7 +35,7 @@ class Book(models.Model):
 
 class Filter(models.Model):
     string = models.TextField()
-    description = models.TextField()
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

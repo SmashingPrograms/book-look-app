@@ -28,9 +28,11 @@ from .create_passages import create_passages
 # ]
 
 def generate_question(host_name, book, difficulty, filters):
+  print("Got to generate questions")
   number_of_blanks = 6
   difficulty = int(difficulty)
   passages = create_passages(host_name, book, difficulty, filters)
+  print("Going to generate extra passage")
   extra_passage = create_passages(host_name, book, difficulty, filters, extra=True)['passage']
   # passage_to_blank, passages
 
@@ -46,6 +48,7 @@ def generate_question(host_name, book, difficulty, filters):
 
     passage_words = []
 
+    print(f"Trying to generate expected words... {book['title']}")
     for word in passage_words_split:
 
       # take out symbols that are likely to cause problems, with word choices
@@ -58,12 +61,13 @@ def generate_question(host_name, book, difficulty, filters):
           break
       if to_continue == True:
         continue
+      print("Got past first if for if loop")
 
       # words in all caps or caps in the middle of a word, again likely to cause problems
       word_to_check_for_upper = word[1:]
       if word_to_check_for_upper != word_to_check_for_upper.lower():
         continue
-
+      print("Got past word_to_check")
       # doing the lowering now since cap testing is done
       word = word.upper()
 
@@ -95,7 +99,7 @@ def generate_question(host_name, book, difficulty, filters):
   if number_of_expected_words < number_of_blanks:
     print(f"IT WAS {number_of_expected_words}!!!! TRYING AGAIN")
     generate_question(host_name, book, difficulty, filters)
-  print("Got here")
+  print("Got past one generate expected words")
   while 1:
     extra_words = generate_expected_words(extra_passage)
     to_continue = False

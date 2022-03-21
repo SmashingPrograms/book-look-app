@@ -1,11 +1,15 @@
 import { React, useState, useEffect, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick }) {
+function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick, matchChoiceToBlank, choiceClick, setChoiceClick }) {
  
   const [blank, setBlank] = useState('');
   // props.wordChoices = Game.props.wordChoices;
   // console.log(wordChoices, "in Blank")
+
+  // useEffect(() => {
+    
+  // });
 
   console.log(wordChoices, "When it comes into Blanks")
   
@@ -45,11 +49,19 @@ function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, se
             // ref={drop}
             // type="text"
             onClick={() => {
+              // matchChoiceToBlank(choiceClick);
               (blankClick === expectedWord)
               ?
               setBlankClick('')
+              // matchChoiceToBlank()
               :
               setBlankClick(expectedWord);
+              if (choiceClick === 'SET_BLANK_TO_WORD') {
+                console.log("Did I even get here?")
+                setBlankClick('');
+                setChoiceClick('');
+                setBlank(expectedWord);
+              };
             }}
             style={{backgroundColor: (blankClick === expectedWord) ? 'lightblue' : 'lightgray' }}
           >

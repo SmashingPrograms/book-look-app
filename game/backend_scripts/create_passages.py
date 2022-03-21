@@ -5,6 +5,7 @@ import random
 def create_passages(host_name, book, difficulty, filters, extra=False):
   # get filters in there
 
+  print("Got to create passages")
   title = book["simple_title"]
   # difficulty = 2
   # title = "winesburg-ohio"
@@ -40,8 +41,9 @@ def create_passages(host_name, book, difficulty, filters, extra=False):
 
   for word in split_for_passages:
     for filter in filters:
-        if filter in word:
+        if filter in word.lower():
           # print("Word was ", word)
+          # print("Got to a trigger word! " + filter)
           split_for_passages[split_for_passages.index(word)] = "[redacted]"
 
   def make_unusable(description):

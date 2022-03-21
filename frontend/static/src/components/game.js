@@ -9,8 +9,9 @@ import Blank from './blank';
 function Game(props) {
   const [data, setData] = useState(null);
   const [wordChoices, setWordChoices] = useState([]);
-  const [choiceClick, setChoiceClick] = useState('')
-  const [blankClick, setBlankClick] = useState('')
+  const [choiceClick, setChoiceClick] = useState('');
+  const [blankClick, setBlankClick] = useState('');
+  const [guessedCorrect, setGuessedCorrect] = useState([]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -38,6 +39,23 @@ function Game(props) {
       // setWordChoices([...wordChoices])
     };
   };
+
+  var matchChoiceToBlank = (stateToCheck) => {
+    if ((blankClick !== "") && (choiceClick !== "")) {
+      console.log("Did I even get here?")
+      if (choiceClick === blankClick) {
+        // setChoiceClick('SET_BLANK_TO_WORD');
+        setGuessedCorrect([...guessedCorrect, choiceClick])
+        alert("Great job! You got that right!");
+      } else {
+        alert("Dang! You were wrong!");
+      };
+      setChoiceClick('');
+      setBlankClick('');
+    };
+  };
+
+  useEffect(() => matchChoiceToBlank());
 
   // const handleChoice = (updatedWordChoices) => {
   //   console.log('firing', updatedWordChoices);
@@ -77,10 +95,18 @@ function Game(props) {
     promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (expectedIndex, i) => (
       // <input type="text" key={match} />
       // <Blank key={i} id={i} word={match} data={data} />
-      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} />
+      guessedCorrect.includes(data.expected_words[expectedIndex].toString())
+      ?
+      data.expected_words[expectedIndex].toString()
+      :
+      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} matchChoiceToBlank={matchChoiceToBlank} choiceClick={choiceClick} setChoiceClick={setChoiceClick} />
     ));
     wordChoicesHTML = wordChoices.map((word, index) => (
-      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} />
+      guessedCorrect.includes(word)
+      ?
+      ''
+      :
+      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} matchChoiceToBlank={matchChoiceToBlank} blankClick={blankClick} />
       // <button key={index}>{word}</button>
     ));
   }
