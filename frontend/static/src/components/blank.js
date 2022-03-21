@@ -2,7 +2,7 @@ import { React, useState, useEffect, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import Hints from "./hints";
 
-function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick, matchChoiceToBlank, choiceClick, setChoiceClick, hint, setHint }) {
+function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick, matchChoiceToBlank, choiceClick, setChoiceClick, hint, setHint }) {
  
   const [blank, setBlank] = useState('');
   // props.wordChoices = Game.props.wordChoices;
@@ -75,7 +75,10 @@ function Blank({ expectedWord, wordChoices, setWordChoices, data, blankClick, se
                   ?
                   setHint('')
                   :
-                  setHint(expectedWord)
+                  setHint({
+                    expectedWord: expectedWord,
+                    id: id,
+                  });
                 }}
               >Hint</button>
               :

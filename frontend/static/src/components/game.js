@@ -119,7 +119,9 @@ function Game(props) {
   useEffect(() => matchChoiceToBlank());
 
 
-
+  function convertOddToCounting(i) {
+    return (i/2).toFixed()
+  }
 
   let wordChoicesHTML;
   let promptPassage;
@@ -135,7 +137,7 @@ function Game(props) {
       ?
       data.expected_words[expectedIndex].toString()
       :
-      <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} matchChoiceToBlank={matchChoiceToBlank} choiceClick={choiceClick} setChoiceClick={setChoiceClick} hint={hint} setHint={setHint} />
+      <Blank key={convertOddToCounting(i)} id={convertOddToCounting(i)} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedWord={data.expected_words[expectedIndex].toString()} blankClick={blankClick} setBlankClick={setBlankClick} matchChoiceToBlank={matchChoiceToBlank} choiceClick={choiceClick} setChoiceClick={setChoiceClick} hint={hint} setHint={setHint} />
     ));
     wordChoicesHTML = wordChoices.map((word, index) => (
       guessedCorrect.includes(word)

@@ -7,7 +7,7 @@ urlpatterns = [
     path('books/<int:pk>/', BookAPIView.as_view()),
     path('books/', BookList.as_view(), name='booklist'),
     path('signal/', SignalList.as_view()),
-    path('filters', FilterList.as_view(), name='filterlist'),
+    path('filters/', FilterList.as_view(), name='filterlist'),
 ]
 
 # add more urlpatterns based on repetitive task

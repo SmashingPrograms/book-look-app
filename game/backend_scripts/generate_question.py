@@ -61,7 +61,7 @@ def generate_question(host_name, book, difficulty, filters):
           break
       if to_continue == True:
         continue
-      print("Got past first if for if loop")
+      print(f"Got past first if for if loop {book['title']}")
 
       # words in all caps or caps in the middle of a word, again likely to cause problems
       word_to_check_for_upper = word[1:]
@@ -88,11 +88,15 @@ def generate_question(host_name, book, difficulty, filters):
     expected_words = []
 
     for i in range(0, number_of_blanks):
+      print("Got to the blanks for loop")
       while 1:
+        print(f"Got to the while 1 in the blanks for loop {book['title']}")
         random_index = random.randint(0, len(passage_words)) - 1
         if passage_words[random_index] not in expected_words:
+          print(f"if passage_words[random_index] not in expected_words {book['title']}")
           expected_words.append(passage_words[random_index])
           break
+    print("Past the entire for loop")
     return expected_words
     
   expected_passage_words_split = passage.split(" ")
