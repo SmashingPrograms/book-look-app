@@ -4,8 +4,6 @@ import Cookies from 'js-cookie';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import Game from './components/game';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 
 function App() {
@@ -65,9 +63,9 @@ function App() {
   )
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <>
       {auth ? homeScreen : account ? <LoginForm setAuth={setAuth} setAccount={setAccount} /> : <RegisterForm setAuth={setAuth} setAccount={setAccount} />}
-    </DndProvider>
+    </>
   );
 }
 

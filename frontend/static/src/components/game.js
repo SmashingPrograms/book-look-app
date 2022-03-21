@@ -9,6 +9,8 @@ import Blank from './blank';
 function Game(props) {
   const [data, setData] = useState(null);
   const [wordChoices, setWordChoices] = useState([]);
+  const [choiceClick, setChoiceClick] = useState('')
+  const [blankClick, setBlankClick] = useState('')
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -78,7 +80,7 @@ function Game(props) {
       <Blank key={i} id={i} data={data} setData={setData} wordChoices={wordChoices} setWordChoices={setWordChoices} expectedIndex={expectedIndex} />
     ));
     wordChoicesHTML = wordChoices.map((word, index) => (
-      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} />
+      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} />
       // <button key={index}>{word}</button>
     ));
   }
