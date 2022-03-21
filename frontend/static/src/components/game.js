@@ -16,6 +16,9 @@ function Game(props) {
   const [blankClick, setBlankClick] = useState('');
   const [hint, setHint] = useState('');
   const [hintsTriggered, setHintsTriggered] = useState(null);
+  const [guessedCorrect, setGuessedCorrect] = useState([]);
+  const [points, setPoints] = useState(0);
+  const [pointIncrement, setPointIncrement] = useState(0);
 
 /*
 {
@@ -25,12 +28,24 @@ function Game(props) {
     rhymes: [],
   }
 */
-
-  const [guessedCorrect, setGuessedCorrect] = useState([]);
-
   const signal = {
     difficulty: 9,
   }
+
+  const managePoints = (symbol, amount, answer) => {
+    let pointsCopy = pointIncrement
+    console.log(pointsCopy, 'pointsCopy')
+    if (answer !== undefined) {
+      amount = (answer.length / 4).toFixed() * amount // a weight of 1 at 4: 4 / 4 = 1. therefore 4 - (1*1) = 3
+    }
+    console.log(amount, "amount")
+    if (symbol === '+') {
+      pointsCopy += amount;
+    } else if (symbol === '-') {
+      pointsCopy -= amount;
+    }
+    setPointIncrement(pointsCopy);
+  };
 
   const postRequest = {
     method: 'POST',
@@ -71,6 +86,14 @@ function Game(props) {
       if (!data) {
         setWordChoices([...responseData.word_choices]);
         setData({...responseData});
+        // generate initial points
+        let pointsToStartWith = 0;
+        const expectedWords = responseData.expected_words
+        for (let datum of expectedWords) {
+          pointsToStartWith += datum.length;
+        }
+        setPointIncrement(pointsToStartWith)
+        console.log(pointIncrement)
       }
     };
   }
@@ -90,12 +113,11 @@ function Game(props) {
 
   var matchChoiceToBlank = (stateToCheck) => {
     if ((blankClick !== "") && (choiceClick !== "")) {
-      console.log("Did I even get here?")
       if (choiceClick === blankClick) {
         // setChoiceClick('SET_BLANK_TO_WORD');
-        setGuessedCorrect([...guessedCorrect, choiceClick])
+        setGuessedCorrect([...guessedCorrect, choiceClick]);
         if (guessedCorrect.length === 5) {
-          alert("Amazing! You got past this passage!")
+          alert("Amazing! You got past this passage!");
           switcheroo();
         } else {
           alert("Great job! You got that right!");
@@ -105,6 +127,7 @@ function Game(props) {
         }
       } else {
         alert("Dang! You were wrong!");
+        managePoints('-', 2, blankClick)
       };
       setChoiceClick('');
       setBlankClick('');
@@ -117,6 +140,7 @@ function Game(props) {
 
   
   useEffect(() => matchChoiceToBlank());
+
 
 
   // Blanks component coming out with keys and ids of odd numbers instead of 1, 2, 3, etc. This converts those odd numbers to something usable.
@@ -174,13 +198,14 @@ function Game(props) {
     <>
       <p>{data?.book_title} ({data?.book_year}) by {data?.book_author}</p>
       <p>Genre: {data?.book_genre}</p>
+      <p>Points: {pointIncrement}, Total points: {points}</p>
       <div>
         {gamePrompt}
       </div>
       {
         hint
         ?
-        <Hints hint={hint} setHint={setHint} hintsTriggered={hintsTriggered} setHintsTriggered={setHintsTriggered} />
+        <Hints hint={hint} setHint={setHint} hintsTriggered={hintsTriggered} setHintsTriggered={setHintsTriggered} managePoints={managePoints} pointIncrement={pointIncrement} />
         :
         hintsTriggered
         ?

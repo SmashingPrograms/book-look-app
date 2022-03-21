@@ -112,9 +112,14 @@ class SignalList(generics.ListCreateAPIView):
       filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
       print("filters are, ", filters)
       books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
-      book = random.choice(books)
-
-      prompt = generate_question(host_name, book, difficulty, filters)
+      while 1:
+        book = random.choice(books)
+        prompt = generate_question(host_name, book, difficulty, filters)
+        if prompt != "":
+          break
+        else:
+          print("YEP GUESS WHAT BUDDY BOY WE GOT HERE")
+          exit()
 
       prompt_passage = prompt[0]
       expected_words = prompt[1]

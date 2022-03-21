@@ -5,7 +5,7 @@ import reactStringReplace from 'react-string-replace';
 import Choice from './choice';
 import Blank from './blank';
 
-function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
+function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncrement, managePoints }) {
 
   // const postRequest = {
   //   method: 'POST',
@@ -23,7 +23,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
     setHint('');
   }
 
-  const getDatamuseData = async (endpoint, desc, data) => {
+  const getDatamuseData = async (endpoint, desc, incrementation) => {
     let forbiddenStrings = [
       ' ',
       '_',
@@ -100,6 +100,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
 
       if (arrayOfWords.length === 0) {
         alert(`No ${desc} found.`)
+        managePoints('+', 15)
       } else {
         const chosenWords = []
 
@@ -136,6 +137,14 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
     }
   }
 
+  const hintOrNot = (code) => {
+    if (pointIncrement >= 0) {
+      code();
+    } else {
+      alert("Sorry, you can't use anymore hints because you lost too many points this round.")
+    }
+  }
+
   return (
     <>
       <h2>Get a hint:</h2>
@@ -146,7 +155,15 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
         ''
         :
         <li>
-          <a href="#" onClick={() => setMultiple('passageBefore', true)}>Get previous passage</a> for more context
+          <a href="#" onClick={() => {
+            // if (pointIncrement >= 0) {
+            hintOrNot(() => {
+              setMultiple('passageBefore', true)
+              managePoints('-', 10)
+            });
+            // } else {
+            //   hintAlert();
+          }}>Get previous passage</a> for more context
         </li>
         }
         {
@@ -155,14 +172,31 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
         ''
         :
         <li>
-          <a href="#" onClick={() => setMultiple('passageAfter', true)}>Get next passage</a> for more context
+          <a href="#" onClick={() => {
+            hintOrNot(() => {
+              setMultiple('passageAfter', true);
+              managePoints('-', 10);
+            });
+          }}>Get next passage</a> for more context
         </li>
         }
         <li>
-          <a href="#" onClick={() => getDatamuseData('ml', 'similar words')}>Get words with similar meanings</a>
+          <a href="#" onClick={() => {
+            const incrementation = 10;
+            hintOrNot(() => {
+              getDatamuseData('ml', 'similar words', incrementation);
+              managePoints('-', incrementation);
+            });
+          }}>Get words with similar meanings</a>
         </li>
         <li>
-          <a href="#" onClick={() => getDatamuseData('rel_rhy', 'rhymes')}>Get words that rhyme</a>
+          <a href="#" onClick={() => {
+            const incrementation = 15;
+            hintOrNot(() => {
+              getDatamuseData('rel_rhy', 'rhymes', incrementation);
+              managePoints('-', incrementation);
+            });
+          }}>Get words that rhyme</a>
         </li>
       </ul>
     </>
