@@ -8,36 +8,70 @@ import Blank from './blank';
 
 function Game(props) {
   const [data, setData] = useState(null);
+  const [secondaryData, setSecondaryData] = useState(null);
   const [wordChoices, setWordChoices] = useState([]);
   const [choiceClick, setChoiceClick] = useState('');
   const [blankClick, setBlankClick] = useState('');
   const [guessedCorrect, setGuessedCorrect] = useState([]);
 
+  const signal = {
+    difficulty: 9,
+  }
+
+  const postRequest = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken'),
+    },
+    body: JSON.stringify(signal),
+  }
+
+  const sendSignal = async () => {
+    let response;
+    let responseData;
+    // if (data) {
+    //   setData([...secondaryData]);
+    // } else {
+    //   response = await fetch('/api/v1/signal/', postRequest);
+
+    //   if (!response.ok) {
+    //     throw new Error('Network response for primary data not ok!')
+    //   } else {
+    //     responseData = await response.json();
+    //     setWordChoices([...responseData.word_choices]);
+    //     console.log(wordChoices, "handleSubmit")
+    //     setData(responseData);
+    //     // setWordChoices([...wordChoices])
+    //   };
+    // }
+
+    response = await fetch('/api/v1/signal/', postRequest);
+    if (!response.ok) {
+      throw new Error('Network response for secondary data not ok!')
+    } else {
+      responseData = await response.json();
+      // setWordChoices([...responseData.word_choices]);
+      // console.log(wordChoices, "handleSubmit")
+      setSecondaryData(responseData);
+      if (!data) {
+        setWordChoices([...responseData.word_choices]);
+        setData({...responseData});
+      }
+    };
+  }
+
+  const switcheroo = () => {
+    setWordChoices([...secondaryData.word_choices]);
+    setData({...secondaryData});
+    setGuessedCorrect([]);
+  }
+
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const data = {
-      difficulty: 9,
-    }
-
-    const response = await fetch('/api/v1/signal/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response not ok!')
-    } else {
-      const responseData = await response.json();
-      setWordChoices([...responseData.word_choices]);
-      console.log(wordChoices, "handleSubmit")
-      setData(responseData);
-      // setWordChoices([...wordChoices])
-    };
+    sendSignal();
+    // switcheroo();
   };
 
   var matchChoiceToBlank = (stateToCheck) => {
@@ -46,7 +80,15 @@ function Game(props) {
       if (choiceClick === blankClick) {
         // setChoiceClick('SET_BLANK_TO_WORD');
         setGuessedCorrect([...guessedCorrect, choiceClick])
-        alert("Great job! You got that right!");
+        if (guessedCorrect.length === 5) {
+          alert("Amazing! You got past this passage!")
+          switcheroo();
+        } else {
+          alert("Great job! You got that right!");
+          if (guessedCorrect.length === 0) {
+            sendSignal();
+          }
+        }
       } else {
         alert("Dang! You were wrong!");
       };
