@@ -127,6 +127,11 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered }) {
 
         alert(`Some ${desc} for blank #${hintId} are ${chosenWords}`)
         console.log(chosenWords)
+
+
+        // NON-MVP
+
+        setHint('')
       }
     }
   }

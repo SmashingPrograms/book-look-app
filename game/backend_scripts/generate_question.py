@@ -90,8 +90,10 @@ def generate_question(host_name, book, difficulty, filters):
     for i in range(0, number_of_blanks):
       print("Got to the blanks for loop")
       while 1:
-        print(f"Got to the while 1 in the blanks for loop {book['title']}")
         random_index = random.randint(0, len(passage_words)) - 1
+        print(f"Got to the while 1 in the blanks for loop {book['title']}")
+        print(f"Passage at random index: {passage_words[random_index]}")
+        print(f"Random index number: {book['title']} {random_index}")
         if passage_words[random_index] not in expected_words:
           print(f"if passage_words[random_index] not in expected_words {book['title']}")
           expected_words.append(passage_words[random_index])

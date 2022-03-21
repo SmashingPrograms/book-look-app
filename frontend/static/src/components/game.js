@@ -119,9 +119,12 @@ function Game(props) {
   useEffect(() => matchChoiceToBlank());
 
 
+  // Blanks component coming out with keys and ids of odd numbers instead of 1, 2, 3, etc. This converts those odd numbers to something usable.
   function convertOddToCounting(i) {
     return (i/2).toFixed()
   }
+
+
 
   let wordChoicesHTML;
   let promptPassage;
