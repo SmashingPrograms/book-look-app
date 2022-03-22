@@ -100,7 +100,8 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
 
       if (arrayOfWords.length === 0) {
         alert(`No ${desc} found.`)
-        managePoints('+', 15)
+        // + 0 here makes it not increment anything overall. I don't know entirely why.
+        managePoints('+', 0)
       } else {
         const chosenWords = []
 

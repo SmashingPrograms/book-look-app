@@ -56,6 +56,26 @@ function Game(props) {
     body: JSON.stringify(signal),
   }
 
+  
+  const addPoints = () => {
+    const pointsSum = points + pointIncrement;
+    if (pointsSum > 0) {
+      setPoints(pointsSum)
+    } else {
+      setPoints(0);
+    }
+  }
+  const startPointIncrement = (expectedWords) => {
+    // generate initial points
+    let pointsToStartWith = 0;
+    // const expectedWords = responseData.expected_words
+    for (let datum of expectedWords) {
+      pointsToStartWith += datum.length;
+    }
+    setPointIncrement(pointsToStartWith)
+    // console.log(pointIncrement)
+  }
+
   const sendSignal = async () => {
     let response;
     let responseData;
@@ -86,14 +106,7 @@ function Game(props) {
       if (!data) {
         setWordChoices([...responseData.word_choices]);
         setData({...responseData});
-        // generate initial points
-        let pointsToStartWith = 0;
-        const expectedWords = responseData.expected_words
-        for (let datum of expectedWords) {
-          pointsToStartWith += datum.length;
-        }
-        setPointIncrement(pointsToStartWith)
-        console.log(pointIncrement)
+        startPointIncrement(responseData.expected_words)
       }
     };
   }
@@ -101,6 +114,7 @@ function Game(props) {
   const switcheroo = () => {
     setWordChoices([...secondaryData.word_choices]);
     setData({...secondaryData});
+    startPointIncrement(secondaryData.expected_words)
     setGuessedCorrect([]);
   }
 
@@ -117,7 +131,11 @@ function Game(props) {
         // setChoiceClick('SET_BLANK_TO_WORD');
         setGuessedCorrect([...guessedCorrect, choiceClick]);
         if (guessedCorrect.length === 5) {
-          alert("Amazing! You got past this passage!");
+          alert(`Amazing! You got through past this passage!\n\n${pointIncrement > 0 ? `+ ${pointIncrement} points` : pointIncrement < 0 ? `- ${Math.abs(pointIncrement)} points` : pointIncrement === 0 ? `No points gained or lost.` : ''}`);
+          setHint('');
+          setHintsTriggered(null)
+          addPoints(pointIncrement);
+          setPointIncrement(0);
           switcheroo();
         } else {
           alert("Great job! You got that right!");
@@ -171,7 +189,7 @@ function Game(props) {
       ?
       ''
       :
-      <Choice key={word} id={index} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} matchChoiceToBlank={matchChoiceToBlank} blankClick={blankClick} setHint={setHint} />
+      <Choice key={word} id={index+7} word={word} wordChoices={wordChoices} setWordChoices={setWordChoices} choiceClick={choiceClick} setChoiceClick={setChoiceClick} matchChoiceToBlank={matchChoiceToBlank} blankClick={blankClick} setHint={setHint} />
       // <button key={index}>{word}</button>
     ));
   }
