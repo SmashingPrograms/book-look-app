@@ -6,7 +6,7 @@ from rest_auth.serializers import UserDetailsSerializer, TokenSerializer, TokenM
 class ProfileSerializer(serializers.ModelSerializer):
   class Meta:
     model = Profile
-    fields = ('id', 'user')
+    fields = ('id', 'user', 'avatar')
 
 class UserDetailsSerializer(UserDetailsSerializer):
   class Meta(UserDetailsSerializer.Meta):

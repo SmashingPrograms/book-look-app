@@ -1,2 +1,4 @@
 .env
 db.sqlite.3
+.DS_Store
+/.vs_code

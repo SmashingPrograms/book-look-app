@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 
 function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick, setChoiceClick, matchChoiceToBlank, setHint }) {
-  console.log("I'm in Choice now")
+  // console.log("I'm in Choice now")
   // console.log(click)
 
   function setBoth(word) {

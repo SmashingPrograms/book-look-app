@@ -9,6 +9,7 @@ import urllib
 from urllib import request, parse
 import json
 import random
+import sys
 from django.forms.models import model_to_dict
 # from django.contrib.sites.shortcuts import get_current_site
 
@@ -112,15 +113,20 @@ class SignalList(generics.ListCreateAPIView):
       filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
       print("filters are, ", filters)
       books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
+      for bookIt in books:
+        if bookIt["simple_title"] == "the-emancipation-proclamation":
+          book = bookIt
       while 1:
-        book = random.choice(books)
+        # book = random.choice(books)
         prompt = generate_question(host_name, book, difficulty, filters)
-        if prompt != "":
-          break
+        print(prompt, "is prompt")
+        if prompt[1] == "" or len(prompt[2]) < 12:
+          print("Not enough expected words to continue. Retrying...")
+          continue
+          # sys.exit()
         else:
-          print("YEP GUESS WHAT BUDDY BOY WE GOT HERE")
-          exit()
-
+          break
+          # break
       prompt_passage = prompt[0]
       expected_words = prompt[1]
       word_choices = prompt[2]
@@ -132,6 +138,7 @@ class SignalList(generics.ListCreateAPIView):
       book_genre = book["genre"]
 
       serializer.save(prompt_passage=prompt_passage, expected_words=expected_words, word_choices=word_choices, passage_before=passage_before, passage_after=passage_after, book_title=book_title, book_author=book_author, book_year=book_year, book_genre=book_genre)
+        # else:
         
 
         # for passage in passages:

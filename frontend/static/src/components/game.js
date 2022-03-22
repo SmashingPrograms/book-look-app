@@ -34,11 +34,11 @@ function Game(props) {
 
   const managePoints = (symbol, amount, answer) => {
     let pointsCopy = pointIncrement
-    console.log(pointsCopy, 'pointsCopy')
+    // console.log(pointsCopy, 'pointsCopy')
     if (answer !== undefined) {
       amount = (answer.length / 4).toFixed() * amount // a weight of 1 at 4: 4 / 4 = 1. therefore 4 - (1*1) = 3
     }
-    console.log(amount, "amount")
+    // console.log(amount, "amount")
     if (symbol === '+') {
       pointsCopy += amount;
     } else if (symbol === '-') {
@@ -173,7 +173,7 @@ function Game(props) {
   // useEffect(() => {
   //   console.log("Got to useeffect Game")
   if (data) {
-    console.log(wordChoices, "if data")
+    // console.log(wordChoices, "if data")
     promptPassage = data.prompt_passage
     promptPassage = reactStringReplace(promptPassage, /_____\(([0-9])\)/g, (expectedIndex, i) => (
       // <input type="text" key={match} />

@@ -23,7 +23,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
     setHint('');
   }
 
-  const getDatamuseData = async (endpoint, desc, incrementation) => {
+  const getDatamuseData = async (endpoint, desc) => {
     let forbiddenStrings = [
       ' ',
       '_',
@@ -31,6 +31,8 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
       '.',
       '-',
       '/',
+      '\'',
+      '"',
       '0',
       '1',
       '2',
@@ -41,8 +43,6 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
       '7',
       '8',
       '9',
-      '\'',
-      '"',
     ]
 
     const filterResponse = await fetch('/api/v1/filters/');
@@ -64,9 +64,9 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
       throw new Error('Network response for Datamuse not ok!')
     } else {
       const responseData = await datamuseResponse.json();
-      console.log(wordToCheck)
-      console.log(URL)
-      console.log(responseData)
+      // console.log(wordToCheck)
+      // console.log(URL)
+      // console.log(responseData)
 
       // filtering against certain strings and undesirable repeat results
 
@@ -96,7 +96,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
         arrayOfWords.push(word.toUpperCase())
       }
 
-      console.log(arrayOfWords)
+      // console.log(arrayOfWords)
 
       if (arrayOfWords.length === 0) {
         alert(`No ${desc} found.`)
@@ -128,7 +128,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
         }
 
         alert(`Some ${desc} for blank #${hintId} are ${chosenWords}`)
-        console.log(chosenWords)
+        // console.log(chosenWords)
 
 
         // NON-MVP
@@ -156,7 +156,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
         ''
         :
         <li>
-          <a href="#" onClick={() => {
+          <button onClick={() => {
             // if (pointIncrement >= 0) {
             hintOrNot(() => {
               setMultiple('passageBefore', true)
@@ -164,7 +164,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
             });
             // } else {
             //   hintAlert();
-          }}>Get previous passage</a> for more context
+          }}>Get previous passage</button> for more context
         </li>
         }
         {
@@ -173,31 +173,31 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
         ''
         :
         <li>
-          <a href="#" onClick={() => {
+          <button onClick={() => {
             hintOrNot(() => {
               setMultiple('passageAfter', true);
               managePoints('-', 10);
             });
-          }}>Get next passage</a> for more context
+          }}>Get next passage</button> for more context
         </li>
         }
         <li>
-          <a href="#" onClick={() => {
+          <button onClick={() => {
             const incrementation = 10;
             hintOrNot(() => {
               getDatamuseData('ml', 'similar words', incrementation);
               managePoints('-', incrementation);
             });
-          }}>Get words with similar meanings</a>
+          }}>Get words with similar meanings</button>
         </li>
         <li>
-          <a href="#" onClick={() => {
+          <button onClick={() => {
             const incrementation = 15;
             hintOrNot(() => {
               getDatamuseData('rel_rhy', 'rhymes', incrementation);
               managePoints('-', incrementation);
             });
-          }}>Get words that rhyme</a>
+          }}>Get words that rhyme</button>
         </li>
       </ul>
     </>

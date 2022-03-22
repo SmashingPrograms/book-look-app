@@ -33,7 +33,6 @@ def generate_question(host_name, book, difficulty, filters):
   difficulty = int(difficulty)
   passages = create_passages(host_name, book, difficulty, filters)
   print("Going to generate extra passage")
-  extra_passage = create_passages(host_name, book, difficulty, filters, extra=True)['passage']
   # passage_to_blank, passages
 
   passage = passages[0]['passage']
@@ -115,6 +114,7 @@ def generate_question(host_name, book, difficulty, filters):
     generate_question(host_name, book, difficulty, filters)
   print("Got past one generate expected words")
   while 1:
+    extra_passage = create_passages(host_name, book, difficulty, filters, extra=True)['passage']
     extra_words = generate_expected_words(extra_passage)
     to_continue = False
     for word in extra_words:
@@ -123,6 +123,7 @@ def generate_question(host_name, book, difficulty, filters):
         to_continue = True
         break
     if to_continue:
+      print("WENT AROUND AGAIN!")
       continue
     else:
       break
