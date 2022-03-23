@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { useState, useEffect, useCallback } from 'react';
 import Game from './game/game';
 
-function Header({ auth, setAuth, account, setAccount }) {
+function Header({ auth, setAuth, account, setAccount, username }) {
 
   const handleError = (err) => {
     console.log(err);
@@ -35,12 +35,13 @@ function Header({ auth, setAuth, account, setAccount }) {
         auth
         ?
         <>
+          <span>{username}</span>
           <button type="button" onClick={handleLogout}>Log out</button>
         </>
         :
         <>
-          <button type="button" >Log in</button>
-          <button type="button" >Register</button>
+          <button type="button" onClick={() => setAccount('l')}>Log in</button>
+          <button type="button" onClick={() => setAccount('r')}>Register</button>
         </>
       }
       <hr />

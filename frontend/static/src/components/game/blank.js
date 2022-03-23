@@ -8,11 +8,11 @@ function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick
 
   // console.log(wordChoices, "When it comes into Blanks")
   
-
   function setBoth() {
     setHint('');
     setBlankClick('');
   }
+
   return (
     <>
       {

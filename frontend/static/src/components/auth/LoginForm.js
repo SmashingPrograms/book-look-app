@@ -1,19 +1,33 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
-function LoginForm({ setAccount, setAuth, setGame }, props) {
+function LoginForm({ setAccount, setAuth, setGame, username, setUsername }) {
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  useEffect(() => setGame(false), [])
+  const [state, setState] = useState({
+    username: '',
+    password: '',
+  })
+
+  // const [password, setPassword] = useState('')
+  // useEffect(() => setGame(false), [])
+
+  const handleInput = (event) => {
+    const { name, value } = event.target;
+
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    setUsername(state.username);
+  }
 
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const user = {
-        username,
-        password,
-    }
+    console.log(username)
+    const password = state.password;
+    console.log(password)
 
     const response = await fetch('/rest-auth/login/', {
         method: 'POST',
@@ -21,7 +35,7 @@ function LoginForm({ setAccount, setAuth, setGame }, props) {
         'Content-Type': 'application/json',
         'X-CSRFToken': Cookies.get('csrftoken'),
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(state),
     });
 
     if (!response.ok) {
@@ -33,7 +47,9 @@ function LoginForm({ setAccount, setAuth, setGame }, props) {
       };
     } else {
       const data = await response.json();
+      console.log(response)
       Cookies.set('Authorization', `Token ${data.key}`);
+      localStorage.setItem('username', username)
       setAuth(true);
       setAccount(false);
       setGame(true);
@@ -52,8 +68,8 @@ function LoginForm({ setAccount, setAuth, setGame }, props) {
             type='text'
             placeholder='username'
             required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={state.username}
+            onChange={handleInput}
         />
         <label htmlFor='password'>Password</label>
         <input
@@ -62,12 +78,13 @@ function LoginForm({ setAccount, setAuth, setGame }, props) {
             type='password'
             placeholder='password'
             required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={state.password}
+            onChange={handleInput}
         />
         <button type="submit">Submit</button>
       </form>
-      <button type="button" value="registration" onClick={() => setAccount('r')} >Register</button>
+      <button type="button" value="registration" onClick={() => setAccount('r')} >Create a new account</button>
+      <button type="button" value="registration" onClick={() => setAccount('')} >Back</button>
     </div>
   )
 }
