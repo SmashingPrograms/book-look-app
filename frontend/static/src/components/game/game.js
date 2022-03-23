@@ -8,7 +8,7 @@ import Hints from './hints';
 import PreviousHints from './previousHints';
 
 
-function Game({ auth, profile, saveProfileData }) {
+function Game({ auth, profile, setProfile }) {
   const [data, setData] = useState(null);
   const [secondaryData, setSecondaryData] = useState(null);
   const [wordChoices, setWordChoices] = useState([]);
@@ -50,10 +50,12 @@ function Game({ auth, profile, saveProfileData }) {
 
   const pushPointsToDatabase = async (points) => {
 
+    setPoints(points)
+
     if (auth) {
       const dataToPush = {...profile};
       dataToPush.points = points;
-      saveProfileData(dataToPush)
+      setProfile(dataToPush)
       const response = await fetch(`/api/v1/profiles/${profile.id}/`)
         // body: JSON.stringify(dataToPush),
 
@@ -83,8 +85,6 @@ function Game({ auth, profile, saveProfileData }) {
         }
         // saveProfileData(data.profile, data.username)
       }
-    } else {
-      setPoints(points)
     }
   }
 
