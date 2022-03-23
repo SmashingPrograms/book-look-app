@@ -39,7 +39,7 @@ function LoginForm({ setAccount, setAuth, setGame, username, setUsername }) {
     });
 
     if (!response.ok) {
-      // console.log(response.status)
+      console.log(response.status)
       if (response.status === 400) {
         alert("Incorrect username and/or password")
       } else {

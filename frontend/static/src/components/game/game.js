@@ -198,28 +198,19 @@ function Game() {
 
   // console.log(<span key='1'>_____</span>)
 
-  const gamePrompt = (
-    <>
-      <div>
+  const game = (
+    <div className="game">
+      <div className="passageInfo">
+        <h2>{data?.book_title} ({data?.book_year}) by {data?.book_author}</h2>
+        <p>Genre: {data?.book_genre}</p>
+        <p>Points: {pointIncrement}, Total points: {points}</p>
+      </div>
+      <div className="passage">
         . . .
         {hintsTriggered?.passageBefore ? ` ${data.passage_before} ` : ''}
         {promptPassage ? promptPassage : ""}
         {hintsTriggered?.passageAfter ? ` ${data.passage_after} ` : ''}
         . . .
-      </div>
-      <div>
-        {wordChoices ? wordChoicesHTML : ""}
-      </div>
-    </>
-  )
-
-  const game = (
-    <>
-      <p>{data?.book_title} ({data?.book_year}) by {data?.book_author}</p>
-      <p>Genre: {data?.book_genre}</p>
-      <p>Points: {pointIncrement}, Total points: {points}</p>
-      <div>
-        {gamePrompt}
       </div>
       {
         hint
@@ -232,7 +223,10 @@ function Game() {
         :
         ''
       }
-    </>
+      <div className="wordChoices">
+        {wordChoices ? wordChoicesHTML : ""}
+      </div>
+    </div>
   )
 
   

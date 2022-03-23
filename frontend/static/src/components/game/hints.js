@@ -147,60 +147,50 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
   }
 
   return (
-    <>
+    <div className="hints">
       <h2>Get a hint:</h2>
-      <ul>
-        {
-        hintsTriggered?.hasOwnProperty('passageBefore')
-        ?
-        ''
-        :
-        <li>
-          <button onClick={() => {
-            // if (pointIncrement >= 0) {
-            hintOrNot(() => {
-              setMultiple('passageBefore', true)
-              managePoints('-', 10)
-            });
-            // } else {
-            //   hintAlert();
-          }}>Get previous passage</button> for more context
-        </li>
-        }
-        {
-        hintsTriggered?.hasOwnProperty('passageAfter')
-        ?
-        ''
-        :
-        <li>
-          <button onClick={() => {
-            hintOrNot(() => {
-              setMultiple('passageAfter', true);
-              managePoints('-', 10);
-            });
-          }}>Get next passage</button> for more context
-        </li>
-        }
-        <li>
-          <button onClick={() => {
-            const incrementation = 10;
-            hintOrNot(() => {
-              getDatamuseData('ml', 'similar words', incrementation);
-              managePoints('-', incrementation);
-            });
-          }}>Get words with similar meanings</button>
-        </li>
-        <li>
-          <button onClick={() => {
-            const incrementation = 15;
-            hintOrNot(() => {
-              getDatamuseData('rel_rhy', 'rhymes', incrementation);
-              managePoints('-', incrementation);
-            });
-          }}>Get words that rhyme</button>
-        </li>
-      </ul>
-    </>
+      {
+      hintsTriggered?.hasOwnProperty('passageBefore')
+      ?
+      ''
+      :
+      <button onClick={() => {
+        // if (pointIncrement >= 0) {
+        hintOrNot(() => {
+          setMultiple('passageBefore', true)
+          managePoints('-', 10)
+        });
+        // } else {
+        //   hintAlert();
+      }}>Get previous passage</button>
+      }
+      {
+      hintsTriggered?.hasOwnProperty('passageAfter')
+      ?
+      ''
+      :
+      <button onClick={() => {
+        hintOrNot(() => {
+          setMultiple('passageAfter', true);
+          managePoints('-', 10);
+        });
+      }}>Get next passage</button>
+      }
+      <button onClick={() => {
+        const incrementation = 10;
+        hintOrNot(() => {
+          getDatamuseData('ml', 'similar words', incrementation);
+          managePoints('-', incrementation);
+      });
+      }}>Get words with similar meanings</button>
+      <button onClick={() => {
+        const incrementation = 15;
+        hintOrNot(() => {
+          getDatamuseData('rel_rhy', 'rhymes', incrementation);
+          managePoints('-', incrementation);
+        });
+      }}>Get words that rhyme</button>
+    </div>
   )
 }
 

@@ -10,6 +10,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
   user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
+  # username = models.TextField(blank=True, null=True, default=self.__str__)
   bio = models.TextField(blank=True, null=True)
   points = models.IntegerField(default=0)
   avatar = models.ImageField(upload_to='profiles/', default='profiles/default-user.png')

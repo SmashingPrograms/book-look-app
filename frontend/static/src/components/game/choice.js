@@ -23,7 +23,7 @@ function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick
           setBoth(word);
           // matchChoiceToBlank();
         }}
-        style={{backgroundColor: (word === choiceClick) ? 'lightblue' : 'lightgray' }}
+        style={{backgroundColor: (word === choiceClick) ? '#C586C0' : 'lightgray' }}
       >
         {word}
       </button>

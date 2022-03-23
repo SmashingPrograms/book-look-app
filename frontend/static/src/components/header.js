@@ -30,7 +30,7 @@ function Header({ auth, setAuth, account, setAccount, username }) {
   }
 
   return (
-    <>
+    <div className="header">
       {
         auth
         ?
@@ -45,7 +45,7 @@ function Header({ auth, setAuth, account, setAccount, username }) {
         </>
       }
       <hr />
-    </>
+    </div>
   )
 }
 

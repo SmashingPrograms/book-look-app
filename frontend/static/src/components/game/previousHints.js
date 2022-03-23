@@ -8,7 +8,7 @@ import Blank from './blank';
 function PreviousHints({ hintsTriggered }) {
 
   return (
-    <>
+    <div class="previousHints">
       <h2>Hints given:</h2>
       <ul>
         {
@@ -30,7 +30,7 @@ function PreviousHints({ hintsTriggered }) {
         ''
         }
       </ul>
-    </>
+    </div>
   );
 };
 

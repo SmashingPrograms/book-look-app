@@ -36,3 +36,68 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  background-color: #EFEADA;
+}
+
+.header {
+  background-color: lightblue;
+}
+
+button {
+  background-color: #04AA6D;
+  border: none;
+  font-style: 'Rockwell';
+  color: black;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  font-size: 16px;
+  margin: 2px;
+  border: 1px solid gray;
+  border-radius: 12px;
+}
+
+.game {
+  /* padding: 2em; */
+  margin: 2em;
+}
+
+.game div:not([class="passageInfo"]) {
+  padding: 2em;
+}
+
+.passage {
+  background-color: lightblue;
+  border-radius: 0px 0px 12px 12px;
+  line-height: 40px;
+  /* margin-bottom: 1em; */
+  border: 1px solid gray;
+}
+
+.passageInfo {
+  background-color: #D3D3D3;
+  border-radius: 12px 12px 0px 0px;
+  border: 1px solid gray;
+  padding: 0em 2em 0em 2em;
+}
+
+.passageInfo h1 {
+  font-size: 20px;
+}
+
+.hints {
+  font-size: 15px;
+  text-align: center;
+  /* padding-bottom: 2em; */
+}
+
+.hints button {
+  font-size: 15px;
+}
+
+.hints h2 {
+  font-size: 20px;
+}
