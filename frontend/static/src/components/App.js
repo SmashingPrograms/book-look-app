@@ -43,9 +43,9 @@ function App() {
   const conditionalRender = () => {
     if (account) {
       if (account === 'l') {
-        return <LoginForm setAuth={setAuth} setAccount={setAccount} setGame={setGame} setProfile={setProfile} username={username} setUsername={setUsername} />
+        return <LoginForm setAuth={setAuth} setAccount={setAccount} setGame={setGame} setProfile={setProfile} username={username} setUsername={setUsername} setGame={setGame} setMain={setMain} />
       } else {
-        return <RegisterForm setAuth={setAuth} setAccount={setAccount} setGame={setGame} setProfile={setProfile} username={username} setUsername={setUsername} />
+        return <RegisterForm setAuth={setAuth} setAccount={setAccount} setGame={setGame} setProfile={setProfile} username={username} setUsername={setUsername} setGame={setGame} setMain={setMain} />
       }
     } 
     if (main) {
@@ -57,7 +57,7 @@ function App() {
 
   return (
     <>
-      <Header auth={auth} setAuth={setAuth} account={account} setAccount={setAccount} profile={profile} setProfile={setProfile} setUsername={setUsername} username={username} />
+      <Header auth={auth} setAuth={setAuth} account={account} setAccount={setAccount} profile={profile} setProfile={setProfile} setUsername={setUsername} username={username} setGame={setGame} setMain={setMain} />
       {/* <Game /> */}
       {/* {conditionalRender()} */}
       {conditionalRender()}

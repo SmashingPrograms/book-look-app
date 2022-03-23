@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername }) {
+function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername, setGame, setMain }) {
   // useEffect(() => setGame(false), [])
 
   const [state, setState] = useState({
@@ -50,6 +50,8 @@ function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername }
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
       localStorage.setItem('username', data.username);
+      setGame(false);
+      setMain(true);
       setUsername(data.username)
       setAuth(true);
       setAccount(false);

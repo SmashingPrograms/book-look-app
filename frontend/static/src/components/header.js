@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { useState, useEffect, useCallback, Profiler } from 'react';
 import Game from './game/game';
 
-function Header({ auth, setAuth, account, setAccount, profile, username, setUsername, setProfile }) {
+function Header({ auth, setAuth, account, setAccount, profile, username, setUsername, setProfile, setGame, setMain }) {
 
   const handleError = (err) => {
     console.log(err);
@@ -28,7 +28,8 @@ function Header({ auth, setAuth, account, setAccount, profile, username, setUser
     setAuth(false);
     setUsername('');
     setProfile(null);
-
+    setGame(false)
+    setMain(true);
     alert("You have been logged out!")
   }
 

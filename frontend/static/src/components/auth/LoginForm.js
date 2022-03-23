@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
-function LoginForm({ setAccount, setAuth, setProfile, username, setUsername }) {
+function LoginForm({ setAccount, setAuth, setProfile, username, setUsername, setGame, setMain }) {
 
   const [state, setState] = useState({
     username: '',
@@ -53,6 +53,8 @@ function LoginForm({ setAccount, setAuth, setProfile, username, setUsername }) {
       console.log(data.username)
 
       localStorage.setItem('username', data.username)
+      setGame(false)
+      setMain(true);
       setUsername(data.username)
       setAuth(true);
       setAccount(false);
