@@ -261,11 +261,12 @@ function Game({ auth, profile, setProfile }) {
         ?
         <Hints hint={hint} setHint={setHint} hintsTriggered={hintsTriggered} setHintsTriggered={setHintsTriggered} managePoints={managePoints} pointIncrement={pointIncrement} />
         :
-        hintsTriggered
-        ?
-        <PreviousHints hintsTriggered={hintsTriggered} />
-        :
         ''
+        // hintsTriggered
+        // ?
+        // <PreviousHints hintsTriggered={hintsTriggered} />
+        // :
+        // ''
       }
       <div className="wordChoices">
         {wordChoices ? wordChoicesHTML : ""}
