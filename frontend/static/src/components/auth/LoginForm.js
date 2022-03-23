@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
-function LoginForm({ setAccount, setAuth, setGame, username, setUsername }) {
+function LoginForm({ setAccount, setAuth, setProfile, username, setUsername }) {
 
   const [state, setState] = useState({
     username: '',
@@ -19,15 +19,15 @@ function LoginForm({ setAccount, setAuth, setGame, username, setUsername }) {
       [name]: value,
     }));
 
-    setUsername(state.username);
+    // setUsername(state.username);
   }
 
   const handleSubmit = async event => {
     event.preventDefault();
 
-    console.log(username)
-    const password = state.password;
-    console.log(password)
+    // console.log(username)
+    // const password = state.password;
+    // console.log(password)
 
     const response = await fetch('/rest-auth/login/', {
         method: 'POST',
@@ -47,12 +47,16 @@ function LoginForm({ setAccount, setAuth, setGame, username, setUsername }) {
       };
     } else {
       const data = await response.json();
-      console.log(response)
+      // console.log(response)
       Cookies.set('Authorization', `Token ${data.key}`);
-      localStorage.setItem('username', username)
+      console.log(data)
+      console.log(data.username)
+
+      localStorage.setItem('username', data.username)
+      setUsername(data.username)
       setAuth(true);
       setAccount(false);
-      setGame(true);
+      setProfile(data.profile)
     };
     // navigate('/');
 

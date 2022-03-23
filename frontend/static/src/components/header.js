@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Profiler } from 'react';
 import Game from './game/game';
 
-function Header({ auth, setAuth, account, setAccount, username }) {
+function Header({ auth, setAuth, account, setAccount, profile, username, setUsername, setProfile }) {
 
   const handleError = (err) => {
     console.log(err);
@@ -26,6 +26,9 @@ function Header({ auth, setAuth, account, setAccount, username }) {
     const data = await response.json();
     Cookies.remove('Authorization', `Token ${data.key}`);
     setAuth(false);
+    setUsername('');
+    setProfile(null);
+
     alert("You have been logged out!")
   }
 
@@ -35,7 +38,15 @@ function Header({ auth, setAuth, account, setAccount, username }) {
         auth
         ?
         <>
-          <span>{username}</span>
+        {
+          profile
+          ?
+          <>
+            <img src={profile.avatar} className="profilePicHeader" /> <span>{username}</span>, <span>{profile.points}</span>
+          </>
+          :
+          ''
+        }
           <button type="button" onClick={handleLogout}>Log out</button>
         </>
         :

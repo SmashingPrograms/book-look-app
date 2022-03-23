@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-function RegisterForm({ setAccount, setAuth, setGame, username, setUsername }) {
+function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername }) {
   // useEffect(() => setGame(false), [])
 
   const [state, setState] = useState({
@@ -20,7 +20,7 @@ function RegisterForm({ setAccount, setAuth, setGame, username, setUsername }) {
       [name]: value,
     }));
 
-    setUsername(state.username)
+    // setUsername(state.username)
 
   }
 
@@ -49,9 +49,12 @@ function RegisterForm({ setAccount, setAuth, setGame, username, setUsername }) {
     } else {
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
-      localStorage.setItem('username', username);
+      localStorage.setItem('username', data.username);
+      setUsername(data.username)
       setAuth(true);
       setAccount(false);
+      // saveProfileData(data.profile, data.username)
+      setProfile(data.profile)
       // setGame(true);
     }
   }

@@ -8,7 +8,7 @@ import Hints from './hints';
 import PreviousHints from './previousHints';
 
 
-function Game() {
+function Game({ auth, profile, saveProfileData }) {
   const [data, setData] = useState(null);
   const [secondaryData, setSecondaryData] = useState(null);
   const [wordChoices, setWordChoices] = useState([]);
@@ -17,7 +17,7 @@ function Game() {
   const [hint, setHint] = useState('');
   const [hintsTriggered, setHintsTriggered] = useState(null);
   const [guessedCorrect, setGuessedCorrect] = useState([]);
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(auth ? JSON.parse(localStorage.getItem('profile')).points : 0);
   const [pointIncrement, setPointIncrement] = useState(0);
 
   useEffect(() => sendSignal(), [])
@@ -48,6 +48,46 @@ function Game() {
     setPointIncrement(pointsCopy);
   };
 
+  const pushPointsToDatabase = async (points) => {
+
+    if (auth) {
+      const dataToPush = {...profile};
+      dataToPush.points = points;
+      saveProfileData(dataToPush)
+      const response = await fetch(`/api/v1/profiles/${profile.id}/`)
+        // body: JSON.stringify(dataToPush),
+
+      const dataToGet = await response.json();
+
+      if (!response.ok) {
+        throw new Error('Network response for profile get request not ok!');
+      } else {
+        // console.log(dataToGet)
+        // Cookies.set('Authorization', `Token ${dataToGet.key}`);
+        console.log(dataToGet)
+        dataToGet.points = points;
+        delete dataToGet.avatar;
+        const responsePut = await fetch(`/api/v1/profiles/${profile.id}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': Cookies.get('csrftoken'),
+          },
+          body: JSON.stringify(dataToGet),
+        });
+
+        if (!responsePut.ok) {
+          throw new Error('Network response for profile put request not ok!');
+        } else {
+          console.log('Got thru that ok')
+        }
+        // saveProfileData(data.profile, data.username)
+      }
+    } else {
+      setPoints(points)
+    }
+  }
+
   const postRequest = {
     method: 'POST',
     headers: {
@@ -60,12 +100,16 @@ function Game() {
   
   const addPoints = () => {
     const pointsSum = points + pointIncrement;
+    console.log(points, 'points')
+    console.log(pointIncrement, 'pointIncrement')
+    console.log(pointsSum, 'pointsSum')
     if (pointsSum > 0) {
-      setPoints(pointsSum)
+      pushPointsToDatabase(pointsSum)
     } else {
-      setPoints(0);
+      pushPointsToDatabase(0);
     }
   }
+
   const startPointIncrement = (expectedWords) => {
     // generate initial points
     let pointsToStartWith = 0;
