@@ -102,6 +102,10 @@ class FilterList(generics.ListCreateAPIView):
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
 
+class FilterAPIView(generics.RetrieveUpdateDestroyAPIView):
+  queryset = Filter.objects.all()
+  serializer_class = FilterSerializer
+
 class SignalList(generics.ListCreateAPIView):
     queryset = Signal.objects.all()
     serializer_class = SignalSerializer
@@ -113,11 +117,11 @@ class SignalList(generics.ListCreateAPIView):
       filters = [ model_to_dict(filter)["string"] for filter in list(Filter.objects.all()) ]
       print("filters are, ", filters)
       books = [ model_to_dict(book) for book in list(Book.objects.all()) ]
-      for bookIt in books:
-        if bookIt["simple_title"] == "the-emancipation-proclamation":
-          book = bookIt
+      book = random.choice(books)
+      # for bookIt in books:
+      #   if bookIt["simple_title"] == "the-emancipation-proclamation":
+      #     book = bookIt
       while 1:
-        # book = random.choice(books)
         prompt = generate_question(host_name, book, difficulty, filters)
         print(prompt, "is prompt")
         if prompt[1] == "" or len(prompt[2]) < 12:
@@ -149,3 +153,11 @@ class SignalList(generics.ListCreateAPIView):
 
     def perform_update(self, serializer):
       pass
+
+class RewardList(generics.ListCreateAPIView):
+    queryset = Reward.objects.all()
+    serializer_class = RewardSerializer
+
+class RewardAPIView(generics.RetrieveUpdateDestroyAPIView):
+  queryset = Reward.objects.all()
+  serializer_class = RewardSerializer

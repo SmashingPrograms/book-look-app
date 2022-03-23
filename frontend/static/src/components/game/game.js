@@ -8,7 +8,7 @@ import Hints from './hints';
 import PreviousHints from './previousHints';
 
 
-function Game(props) {
+function Game() {
   const [data, setData] = useState(null);
   const [secondaryData, setSecondaryData] = useState(null);
   const [wordChoices, setWordChoices] = useState([]);
@@ -20,6 +20,7 @@ function Game(props) {
   const [points, setPoints] = useState(0);
   const [pointIncrement, setPointIncrement] = useState(0);
 
+  useEffect(() => sendSignal(), [])
 /*
 {
     passageBefore: false,
@@ -118,7 +119,7 @@ function Game(props) {
     setGuessedCorrect([]);
   }
 
-  const handleSubmit = async event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     sendSignal();
@@ -238,8 +239,8 @@ function Game(props) {
 
   return (
     <>
-      <button onClick={handleSubmit}>Next round</button>
-      <div>{data ? game : "Click the button above!"}</div>
+      {/* <button onClick={handleSubmit}>Next round</button> */}
+      <div>{data ? game : "Loading data..."}</div>
     </>
   )
 };

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-function RegisterForm(props) {
+function RegisterForm({ setAccount, setAuth, setGame }) {
+  useEffect(() => setGame(false), [])
+
   const [state, setState] = useState({
     username: '',
     email: '',
@@ -23,7 +25,7 @@ function RegisterForm(props) {
     console.log(err);
   }
 
-  const handleCreateSubmit = async event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     
     const options = {
@@ -44,30 +46,27 @@ function RegisterForm(props) {
     } else {
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
-      props.setAuth(true);
-      props.setAccount(true);
+      setAuth(true);
+      setAccount(true);
+      setGame(true);
     }
-  }
-
-  const backToLogin = () => {
-    props.setAccount(true)
   }
 
   return (
     <>
       <h1>Create an account</h1>
       <div>
-      <form onSubmit={handleCreateSubmit}>
+      <form onSubmit={handleSubmit}>
         <label htmlFor='username'>Username</label>
         <input type='text' name='username' id='username' placeholder='username' onChange={handleInput} required value={state.username} />
         <label htmlFor='email'>Email</label>
         <input type='email' name='email' id='email' placeholder='email' onChange={handleInput} required value={state.email} />
         <label htmlFor='password1'>Password</label>
         <input type='password' name='password1' id='password1' placeholder='password' onChange={handleInput} required value={state.password1}></input>
-        <label htmlFor='password2'>Confirm Password</label>
+        <label htmlFor='password2'>Confirm password</label>
         <input type='password' name='password2' id='password2' placeholder='password' onChange={handleInput} required value={state.password2}></input>
-        <button type='submit'>Login</button>
-        <button type='button' name='backToLogin' onClick={backToLogin}>Back</button>
+        <button type='submit'>Submit</button>
+        <button type='button' name='backToLogin' onClick={() => setAccount('l')}>Back</button>
       </form>
       </div>
     </>

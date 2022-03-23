@@ -1,13 +1,11 @@
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function LoginForm(props) {
-  const handleError = (error) => {
-    console.warn(error);
-  }
+function LoginForm({ setAccount, setAuth, setGame }, props) {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  useEffect(() => setGame(false), [])
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -27,11 +25,18 @@ function LoginForm(props) {
     });
 
     if (!response.ok) {
-      throw new Error('Network response not ok!')
+      // console.log(response.status)
+      if (response.status === 400) {
+        alert("Incorrect username and/or password")
+      } else {
+        throw new Error('Network response not ok!');
+      };
     } else {
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
-      props.setAuth(true);
+      setAuth(true);
+      setAccount(false);
+      setGame(true);
     };
     // navigate('/');
 
@@ -60,9 +65,9 @@ function LoginForm(props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit">Submit</button>
       </form>
-      <button type="button" value="registration" onClick={() => props.setAccount(false)} >Register</button>
+      <button type="button" value="registration" onClick={() => setAccount('r')} >Register</button>
     </div>
   )
 }

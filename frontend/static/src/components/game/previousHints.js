@@ -7,7 +7,6 @@ import Blank from './blank';
 
 function PreviousHints({ hintsTriggered }) {
 
-  console.log(hintsTriggered?.toString.length)
   return (
     <>
       <h2>Hints given:</h2>

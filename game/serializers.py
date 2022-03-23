@@ -16,3 +16,8 @@ class SignalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Signal
         fields = '__all__'
+
+class RewardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reward
+        fields = '__all__'

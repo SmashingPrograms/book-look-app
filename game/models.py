@@ -58,5 +58,14 @@ class Signal(models.Model):
     def __str__(self):
         return "Signal"
 
+class Reward(models.Model):
+    title = models.TextField(null=True)
+    points_required = models.IntegerField(null=True)
+    avatar = models.ImageField(upload_to='rewards/', null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
 # The Odyssey
 # The Iliad

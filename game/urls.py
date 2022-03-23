@@ -4,13 +4,11 @@ from .views import *
 app_name = 'game'
 
 urlpatterns = [
-    path('books/<int:pk>/', BookAPIView.as_view()),
     path('books/', BookList.as_view(), name='booklist'),
+    path('books/<int:pk>/', BookAPIView.as_view()),
     path('signal/', SignalList.as_view()),
     path('filters/', FilterList.as_view(), name='filterlist'),
+    path('filters/<int:pk>/', FilterAPIView.as_view()),
+    path('rewards/', RewardList.as_view(), name='rewardlist'),
+    path('rewards/<int:pk>/', RewardAPIView.as_view()),
 ]
-
-# add more urlpatterns based on repetitive task
-# for difficulty in range(1, 10):
-#     urlpatterns.append(path(f'books/<int:pk>/{difficulty}/passages', PassageList.as_view()))
-#     # urlpatterns.append(path(f'books/<int:book_id>/{difficulty}/passages/<int:pk>', PassageAPIView.as_view()))
