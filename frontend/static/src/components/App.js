@@ -15,11 +15,12 @@ function App() {
   const [main, setMain] = useState(true)
   const [username, setUsername] = useState(auth ? localStorage.getItem('username') : '')
   const [id, setId] = useState(auth ? localStorage.getItem('id') : 0)
-  const [profile, setProfile] = useState(auth ? localStorage.getItem('profile') : null)
+  const [profile, setProfile] = useState(auth ? JSON.parse(localStorage.getItem('profile')) : null)
 
-  // useEffect(() => {
-  //   localStorage.setItem('id', id)
-  // }, [])
+  useEffect(() => {
+    // localStorage.setItem('id', id)
+    localStorage.setItem('profile', JSON.stringify(profile));
+  })
 
   // const getProfile = async () => {
   //   if (auth) {

@@ -57,6 +57,8 @@ function LoginForm({ setAccount, setAuth, setProfile, username, setUsername }) {
       setAuth(true);
       setAccount(false);
       setProfile(data.profile)
+      console.log(data.profile, "Profile after login")
+      console.log(JSON.stringify(data.profile), "Stringified version")
     };
     // navigate('/');
 

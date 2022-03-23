@@ -55,6 +55,8 @@ function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername }
       setAccount(false);
       // saveProfileData(data.profile, data.username)
       setProfile(data.profile)
+      console.log(data.profile)
+      // localStorage.setItem('profile', {...data.profile});
       // setGame(true);
     }
   }
