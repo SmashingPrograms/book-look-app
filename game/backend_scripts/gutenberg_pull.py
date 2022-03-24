@@ -10,18 +10,24 @@ def gutenberg_pull(book, title):
    #title = book['simple_title'][0]
    # I don't know why the above didn't work! For now, I'm just gonna pull it out directly
    # title = simplified_title
-   url = book['url'][0]
-   # start = input("Enter start text: ")
-   start = book['start'][0]
-   # end = input("Enter end text: ")
-   end = book['end'][0]
+   try:
+      url = book['url'][0]
+      # start = input("Enter start text: ")
+      start = book['start'][0]
+      # end = input("Enter end text: ")
+      end = book['end'][0]
+      with urllib.request.urlopen(url) as response:
+         html = response.read().decode('UTF8', 'replace')
+   except ValueError:
+      url = book['url']
+      start = book['start']
+      end = book['end']
+      with urllib.request.urlopen(url) as response:
+         html = response.read().decode('UTF8', 'replace')
    # book = input("Book name: ")
    # author = input("Author: ")
    # year = input("Year: ")
    # genre = input("Genre(s), separate by comma: ")
-
-   with urllib.request.urlopen(url) as response:
-      html = response.read().decode('UTF8', 'replace')
       # html = str(html)
       # html = html.replace('\\n', '\n').replace('\\t', '\t')[2:]
 

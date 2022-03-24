@@ -247,7 +247,7 @@ function Game({ auth, profile, setProfile }) {
       <div className="passageInfo">
         <h2>{data?.book_title} ({data?.book_year}) by {data?.book_author}</h2>
         <p>Genre: {data?.book_genre}</p>
-        <p>Points: {pointIncrement}, Total points: {points}</p>
+        <p>Total points: {points} &nbsp; Maximum possible points from this passage: {pointIncrement}</p>
       </div>
       <div className="passage">
         . . .

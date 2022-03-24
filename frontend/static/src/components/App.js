@@ -6,15 +6,16 @@ import RegisterForm from './auth/RegisterForm';
 import Game from './game/game';
 import MainPage from './main';
 import Header from './header'
+import BookCRUD from './crud/bookCRUD';
 
 function App() {
 
   const [auth, setAuth] = useState(!!Cookies.get('Authorization'));
   const [account, setAccount] = useState(false);
-  const [game, setGame] = useState(false);
-  const [main, setMain] = useState(true)
+  const [selection, setSelection] = useState('main');
+  // const [superuser, setSu]
   const [username, setUsername] = useState(auth ? localStorage.getItem('username') : '')
-  const [id, setId] = useState(auth ? localStorage.getItem('id') : 0)
+  // const [id, setId] = useState(auth ? localStorage.getItem('id') : 0)
   const [profile, setProfile] = useState(auth ? JSON.parse(localStorage.getItem('profile')) : null)
 
   useEffect(() => {
@@ -40,30 +41,33 @@ function App() {
   //   }
   // };
 
-  const conditionalRender = () => {
-    if (account) {
-      if (account === 'l') {
-        return <LoginForm setAuth={setAuth} setAccount={setAccount} setGame={setGame} setProfile={setProfile} username={username} setUsername={setUsername} setGame={setGame} setMain={setMain} />
-      } else {
-        return <RegisterForm setAuth={setAuth} setAccount={setAccount} setGame={setGame} setProfile={setProfile} username={username} setUsername={setUsername} setGame={setGame} setMain={setMain} />
-      }
-    } 
-    if (main) {
-      return <MainPage setMain={setMain} setGame={setGame} />
-    } else if (game) {
-      return <Game auth={auth} profile={profile} setProfile={setProfile} />
-    }
-  }
+  // const conditionalRender = () => {
+  //   if (account) {
+  //     if (account === 'l') {
+  //       return <LoginForm setAuth={setAuth} setAccount={setAccount} setProfile={setProfile} username={username} setUsername={setUsername} />
+  //     } else {
+  //       return <RegisterForm setAuth={setAuth} setAccount={setAccount} setProfile={setProfile} username={username} setUsername={setUsername} />
+  //     }
+  //   } 
+  //   if (main) {
+  //     return <MainPage />
+  //   } else if (game) {
+  //     return <Game auth={auth} profile={profile} setProfile={setProfile} />
+  //   }
+  // }
 
   return (
     <>
-      <Header auth={auth} setAuth={setAuth} account={account} setAccount={setAccount} profile={profile} setProfile={setProfile} setUsername={setUsername} username={username} setGame={setGame} setMain={setMain} />
-      {/* <Game /> */}
-      {/* {conditionalRender()} */}
-      {conditionalRender()}
-      {/* (auth && game) ? <Game /> : <MainPage />} */}
+      <Header auth={auth} setAuth={setAuth} account={account} setAccount={setAccount} profile={profile} setProfile={setProfile} setUsername={setUsername} username={username} selection={selection} setSelection={setSelection} />
+
+      {selection === 'main' && <MainPage setSelection={setSelection} /> }
+      {selection === 'login' && <LoginForm setAuth={setAuth} setAccount={setAccount} setProfile={setProfile} username={username} setUsername={setUsername} setSelection={setSelection} /> }
+      {selection === 'register' && <RegisterForm setAuth={setAuth} setAccount={setAccount} setProfile={setProfile} username={username} setUsername={setUsername} setSelection={setSelection} /> }
+      {selection === 'game' && <Game auth={auth} profile={profile} setProfile={setProfile} setSelection={setSelection} />}
+      {selection === 'bookshelf' && <BookCRUD />}
     </>
   );
 }
 
 export default App;
+ 

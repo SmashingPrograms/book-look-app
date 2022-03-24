@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 
-function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername, setGame, setMain }) {
+function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername, setSelection }) {
   // useEffect(() => setGame(false), [])
 
   const [state, setState] = useState({
@@ -50,11 +50,12 @@ function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername, 
       const data = await response.json();
       Cookies.set('Authorization', `Token ${data.key}`);
       localStorage.setItem('username', data.username);
-      setGame(false);
-      setMain(true);
+      // setGame(false);
+      // setMain(true);
+      setSelection('main')
       setUsername(data.username)
       setAuth(true);
-      setAccount(false);
+      // setAccount(false);
       // saveProfileData(data.profile, data.username)
       setProfile(data.profile)
       console.log(data.profile)
@@ -77,8 +78,8 @@ function RegisterForm({ setAccount, setAuth, setProfile, username, setUsername, 
         <label htmlFor='password2'>Confirm password</label>
         <input type='password' name='password2' id='password2' placeholder='password' onChange={handleInput} required value={state.password2}></input>
         <button type='submit'>Submit</button>
-        <button type='button' name='backToLogin' onClick={() => setAccount('l')}>Log in to existing account</button>
-        <button type="button" value="registration" onClick={() => setAccount('')} >Back</button>
+        <button type='button' name='backToLogin' onClick={() => setSelection('login')}>Log in to existing account</button>
+        <button type="button" value="registration" onClick={() => setSelection('main')} >Back</button>
       </form>
       </div>
     </>

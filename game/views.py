@@ -11,6 +11,8 @@ import json
 import random
 import sys
 from django.forms.models import model_to_dict
+from rest_framework.permissions import IsAdminUser
+from .permissions import IsAdminOrReadyOnly
 # from django.contrib.sites.shortcuts import get_current_site
 
 def simplify_title(title):
@@ -46,6 +48,7 @@ def simplify_title(title):
 class BookList(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [IsAdminOrReadyOnly]
     
     def perform_create(self, serializer):
       book = dict(self.request.data)
@@ -77,7 +80,7 @@ class BookList(generics.ListCreateAPIView):
 
 # ListAPIView works, but doesn't let you delete
 class BookAPIView(generics.RetrieveUpdateDestroyAPIView):
-  # permission_classes = (IsAdminUser,)
+  permission_classes = [IsAdminOrReadyOnly]
   queryset = Book.objects.all()
   serializer_class = BookSerializer
 

@@ -2,13 +2,13 @@ import Cookies from 'js-cookie';
 import { useState, useEffect, useCallback } from 'react';
 import Game from './game/game';
 
-function MainPage({ setMain, setGame }) {
+function MainPage({ setSelection }) {
   return (
     <>
       <div>Welcome to Book-Look!</div>
       <button onClick={() => {
-        setGame(true);
-        setMain(false);
+        setSelection('game')
+        // setMain(false);
       }}>Play game!</button>
     </>
   )

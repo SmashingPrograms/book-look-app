@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
-function LoginForm({ setAccount, setAuth, setProfile, username, setUsername, setGame, setMain }) {
+function LoginForm({ setAccount, setAuth, setProfile, username, setUsername, setSelection }) {
 
   const [state, setState] = useState({
     username: '',
@@ -49,17 +49,18 @@ function LoginForm({ setAccount, setAuth, setProfile, username, setUsername, set
       const data = await response.json();
       // console.log(response)
       Cookies.set('Authorization', `Token ${data.key}`);
-      console.log(data)
-      console.log(data.username)
-
-      localStorage.setItem('username', data.username)
-      setGame(false)
-      setMain(true);
+      localStorage.setItem('profile', data);
+      localStorage.setItem('username', data.username);
+      localStorage.setItem('is_superuser', data.is_superuser);
+      // setGame(false)
+      // setMain(true);
+      setSelection('main')
       setUsername(data.username)
       setAuth(true);
-      setAccount(false);
+      // setAccount(false);
       setProfile(data.profile)
       console.log(data.profile, "Profile after login")
+      console.log(data.avatar, "Avatar after login")
       console.log(JSON.stringify(data.profile), "Stringified version")
     };
     // navigate('/');
@@ -91,8 +92,8 @@ function LoginForm({ setAccount, setAuth, setProfile, username, setUsername, set
         />
         <button type="submit">Submit</button>
       </form>
-      <button type="button" value="registration" onClick={() => setAccount('r')} >Create a new account</button>
-      <button type="button" value="registration" onClick={() => setAccount('')} >Back</button>
+      <button type="button" value="registration" onClick={() => setSelection('register')} >Create a new account</button>
+      <button type="button" value="registration" onClick={() => setSelection('main')} >Back</button>
     </div>
   )
 }
