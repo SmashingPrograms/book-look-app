@@ -54,14 +54,14 @@ function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick
                 :
                 setBlankClick(expectedWord);
               }}
-              style={{backgroundColor: (blankClick === expectedWord) ? 'rgba(255, 159, 243, 0.5)' : '#dfe4ea' }}
+              style={{backgroundColor: (blankClick === expectedWord) ? '#42a1e8' : '#dfe4ea' }}
             >
               _______________
             </button>
             {
               (blankClick === expectedWord)
               ?
-              <button className="btn btn-success"
+              <button id="custom-hint" className="btn btn-success"
                 onClick={() => {
                   hint
                   ?

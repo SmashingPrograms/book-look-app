@@ -42,7 +42,9 @@
 }
 
 .header {
-  background: rgba(255, 159, 243, 0.5);
+  /* background: rgba(255, 159, 243, 0.5)  */
+  background-color: #011945;
+  color: white;
   padding: 0em 2em 0em 2em;
   border-bottom: 1px solid gray;
 }
@@ -75,13 +77,15 @@
 
 .passage {
   /* background: rgba(255, 159, 243, 0.5);*/
-  background-color: rgba(29, 209, 161, 0.5);
+  /* background-color: rgba(29, 209, 161, 0.5); */
+  background-color: #535f78;
+  color: white;
   /* border-radius: 0px 0px 12px 12px; */
   line-height: 40px;
   /* margin-bottom: 1em; */
   border: 1px solid gray;
   border-bottom: 0px;
-  opacity: 80%;
+  /* opacity: 80%; */
 }
 
 @media (max-width: 700px) {
@@ -99,7 +103,8 @@
 }
 
 .choices {
-  background-color: rgba(29, 209, 161, 0.4);
+  /* background-color: rgba(29, 209, 161, 0.4); */
+  background-color: #535f78;
   /* color: #ecf0f1; */
   border-radius: 0px 0px 12px 12px;
   border: 1px solid gray;
@@ -221,4 +226,16 @@ div.registration, div.login {
 .main {
   text-align: center;
   margin-top: 3rem;
+}
+
+.custom-button {
+  color: white;
+}
+
+#custom-button {
+  color: white;
+}
+
+#custom-hint {
+  background-color: #42a1e8;
 }

@@ -24,7 +24,7 @@ function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick
           setBoth(word);
           // matchChoiceToBlank();
         }}
-        style={{backgroundColor: (word === choiceClick) ? 'rgba(255, 159, 243, 1)' : 'lightgray' }}
+        style={{backgroundColor: (word === choiceClick) ? '#42a1e8' : 'lightgray' }}
         // #C586C0
         // 
       >

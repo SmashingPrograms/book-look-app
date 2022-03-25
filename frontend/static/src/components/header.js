@@ -75,14 +75,14 @@ function Header({ auth, setAuth, account, setAccount, profile, username, setUser
           ''
         }
         {
-          (localStorage.getItem('is_superuser') === 'true') && (selection === 'bookshelf' ? <button className="btn btn-link margin-left" type="button" onClick={() => setSelection('main')}>Back</button> : <button className="btn btn-link margin-left" type="button" onClick={() => setSelection('bookshelf')}>Bookshelf</button>)
+          (localStorage.getItem('is_superuser') === 'true') && (selection === 'bookshelf' ? <button id='custom-button' className="btn btn-link margin-left" type="button" onClick={() => setSelection('main')}>Back</button> : <button id='custom-button' className="btn btn-link margin-left" type="button" onClick={() => setSelection('bookshelf')}>Bookshelf</button>)
         }
-          <button className={`btn btn-link ${localStorage.getItem('is_superuser') ==='false' ? 'margin-left' : null}`} type="button" onClick={handleLogout}>Log out</button>
+          <button id='custom-button' className={`btn btn-link ${localStorage.getItem('is_superuser') ==='false' ? 'margin-left' : null}`} type="button" onClick={handleLogout}>Log out</button>
         </>
         :
         <>
-          <button className="btn btn-link margin-left" type="button" onClick={() => setSelection('login')}>Log in</button>
-          <button className="btn btn-link" type="button" onClick={() => setSelection('register')}>Register</button>
+          <button id='custom-button' className="btn btn-link margin-left" type="button" onClick={() => setSelection('login')}>Log in</button>
+          <button id='custom-button' className="btn btn-link" type="button" onClick={() => setSelection('register')}>Register</button>
         </>
       }
     </div>
