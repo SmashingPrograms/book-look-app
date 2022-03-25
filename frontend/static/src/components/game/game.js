@@ -247,29 +247,30 @@ function Game({ auth, profile, setProfile }) {
       <div className="passageInfo">
         <h2>{data?.book_title} ({data?.book_year}) by {data?.book_author}</h2>
         <p>Genre: {data?.book_genre}</p>
-        <p>Total points: {points} &nbsp; Maximum possible points from this passage: {pointIncrement}</p>
+        <p>Total points: {points} &nbsp; Possible points: {pointIncrement}</p>
       </div>
       <div className="passage">
-        . . .
+        . . . &nbsp;
         {hintsTriggered?.passageBefore ? ` ${data.passage_before} ` : ''}
         {promptPassage ? promptPassage : ""}
         {hintsTriggered?.passageAfter ? ` ${data.passage_after} ` : ''}
-        . . .
+        &nbsp; . . .
       </div>
-      {
-        hint
-        ?
-        <Hints hint={hint} setHint={setHint} hintsTriggered={hintsTriggered} setHintsTriggered={setHintsTriggered} managePoints={managePoints} pointIncrement={pointIncrement} />
-        :
-        ''
-        // hintsTriggered
-        // ?
-        // <PreviousHints hintsTriggered={hintsTriggered} />
-        // :
-        // ''
-      }
-      <div className="wordChoices">
-        {wordChoices ? wordChoicesHTML : ""}
+      <div className="choices">
+        {
+          hint
+          ?
+          <Hints hint={hint} setHint={setHint} hintsTriggered={hintsTriggered} setHintsTriggered={setHintsTriggered} managePoints={managePoints} pointIncrement={pointIncrement} />
+          :
+          <div className="wordChoices">
+            {wordChoices ? wordChoicesHTML : ""}
+          </div>
+          // hintsTriggered
+          // ?
+          // <PreviousHints hintsTriggered={hintsTriggered} />
+          // :
+          // ''
+        }
       </div>
     </div>
   )

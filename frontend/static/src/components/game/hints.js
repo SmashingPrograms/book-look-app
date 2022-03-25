@@ -154,7 +154,7 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
       ?
       ''
       :
-      <button onClick={() => {
+      <button className="btn btn-success mx-2" onClick={() => {
         // if (pointIncrement >= 0) {
         hintOrNot(() => {
           setMultiple('passageBefore', true)
@@ -169,21 +169,21 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
       ?
       ''
       :
-      <button onClick={() => {
+      <button className="btn btn-success mx-2" onClick={() => {
         hintOrNot(() => {
           setMultiple('passageAfter', true);
           managePoints('-', 10);
         });
       }}>Get next passage</button>
       }
-      <button onClick={() => {
+      <button className="btn btn-success mx-2" onClick={() => {
         const incrementation = 10;
         hintOrNot(() => {
           getDatamuseData('ml', 'similar words', incrementation);
           managePoints('-', incrementation);
       });
       }}>Get words with similar meanings</button>
-      <button onClick={() => {
+      <button className="btn btn-success mx-2" onClick={() => {
         const incrementation = 15;
         hintOrNot(() => {
           getDatamuseData('rel_rhy', 'rhymes', incrementation);

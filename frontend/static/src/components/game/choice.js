@@ -14,6 +14,7 @@ function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick
       <button
         // ref={drag}
         // style={{ border: isDragging ? "2px solid blue" : "0px" }}
+        className="blank"
         onClick={() => {
           // matchChoiceToBlank(blankClick);
           (choiceClick === word)
@@ -23,7 +24,9 @@ function Choice({ id, word, wordChoices, setWordChoices, blankClick, choiceClick
           setBoth(word);
           // matchChoiceToBlank();
         }}
-        style={{backgroundColor: (word === choiceClick) ? '#C586C0' : 'lightgray' }}
+        style={{backgroundColor: (word === choiceClick) ? 'rgba(255, 159, 243, 1)' : 'lightgray' }}
+        // #C586C0
+        // 
       >
         {word}
       </button>

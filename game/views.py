@@ -46,7 +46,7 @@ def simplify_title(title):
   return title
 
 class BookList(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
+    queryset = Book.objects.order_by('title')
     serializer_class = BookSerializer
     permission_classes = [IsAdminOrReadyOnly]
     

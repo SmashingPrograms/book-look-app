@@ -4,13 +4,16 @@ import Game from './game/game';
 
 function MainPage({ setSelection }) {
   return (
-    <>
-      <div>Welcome to Book-Look!</div>
-      <button onClick={() => {
+
+      <div className="main"> 
+      <h1>Welcome to Book-Look!</h1>
+      <button className="btn btn-success" onClick={() => {
         setSelection('game')
         // setMain(false);
       }}>Play game!</button>
-    </>
+      </div>
+   
+
   )
 }
 

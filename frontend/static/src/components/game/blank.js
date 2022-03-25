@@ -44,6 +44,7 @@ function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick
               // key={key}
               // ref={drop}
               // type="text"
+              className="blank"
               onClick={() => {
                 // matchChoiceToBlank(choiceClick);
                 (blankClick === expectedWord)
@@ -53,14 +54,14 @@ function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick
                 :
                 setBlankClick(expectedWord);
               }}
-              style={{backgroundColor: (blankClick === expectedWord) ? '#C586C0' : '#dfe4ea' }}
+              style={{backgroundColor: (blankClick === expectedWord) ? 'rgba(255, 159, 243, 0.5)' : '#dfe4ea' }}
             >
               _______________
             </button>
             {
               (blankClick === expectedWord)
               ?
-              <button
+              <button className="btn btn-success"
                 onClick={() => {
                   hint
                   ?
