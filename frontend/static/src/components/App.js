@@ -19,6 +19,9 @@ function App() {
   const [profile, setProfile] = useState(auth ? JSON.parse(localStorage.getItem('profile')) : null)
 
   useEffect(() => {
+    document.body.classList.add('bodyTag')
+  }, [])
+  useEffect(() => {
     // localStorage.setItem('id', id)
     localStorage.setItem('profile', JSON.stringify(profile));
   })

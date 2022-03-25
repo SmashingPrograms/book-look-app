@@ -69,26 +69,22 @@ function BookDetail(props) {
   
   
   const detailsHTML = (
-    // <Col>
-      <Card style={{width: '25rem'}}>
+    <Col>
+      <Card className="myCard">
         <Card.Body>
           <Card.Title><span data-name='title'>{book.title}</span> (<span data-name='year'>{book.year}</span>)</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">by <span data-name='author'>{book.author}</span></Card.Subtitle>
           <Card.Text>
-            <p>Genre: </p>
-            <p data-name='genre'>{book.genre}</p>
-            <p>URL: </p>
-            <p data-name='url'>{book.url}</p>
-            <p>Start: </p>
-            <p data-name='start'>{book.start}</p>
-            <p>End: </p>
-            <p data-name='end'>{book.end}</p>
+            <p>Genre: <span data-name='genre'>{book.genre}</span></p>
+            <p>URL: <span data-name='url'>{book.url}</span></p>
+            <p>Start: <span data-name='start'>{book.start}</span></p>
+            <p>End: <span data-name='end'>{book.end}</span></p>
             <button type="button" onClick={() => setEditing(true)}>Edit</button>
             <button type="button" onClick={() => props.handleDelete(props.index)}>Delete</button>
           </Card.Text>
         </Card.Body>
       </Card>
-    // </Col>
+    </Col>
   )
 
   const editingHTML = (
@@ -168,7 +164,7 @@ function BookCRUD() {
       // console.log(dataToGet)
       // Cookies.set('Authorization', `Token ${dataToGet.key}`);
       // console.log(dataToGet);
-      setBooks(dataToGet);
+      setBooks(dataToGet.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
     }
   }
 
@@ -281,8 +277,8 @@ function BookCRUD() {
   //   // setBooks(booksCopy);
   // }
 
-  const bookPostsHTML =  books.map((book, index) => (
-      <BookDetail key={index} index={index} book={book} handleDelete={handleDelete} handleChange={handleChange} books={books} setBooks={setBooks}/>
+  const bookPostsHTML = books.map((book, index) => (
+    <BookDetail key={index} index={index} book={book} handleDelete={handleDelete} handleChange={handleChange} books={books} setBooks={setBooks}/>
     ));
 
   return (
