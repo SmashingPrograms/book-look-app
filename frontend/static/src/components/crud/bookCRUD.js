@@ -105,10 +105,10 @@ function BookDetail(props) {
           <Form.Control type="text" name="end" placeholder="Enter ending text" onChange={handleInput} value={book.end} required />
         </Form.Group>
 
-          <Button variant="primary" type="submit" className='btn btn-success'>
+          <Button variant="primary" type="submit" id="custom-hint" className='btn btn-success'>
             Save
           </Button>
-          <Button className="mx-2" variant="primary" type="button" onClick={() => setShow(false)}>
+          <Button className="mx-2" variant="primary" type="button" id="custom-hint" onClick={() => setShow(false)}>
             Cancel
           </Button>
         </Form>
@@ -120,13 +120,13 @@ function BookDetail(props) {
     <Col>
       <Card className="myCard">
         <Card.Body>
-          <Card.Title><span data-name='title'>{book.title} {book.id}</span> (<span data-name='year'>{book.year}</span>)</Card.Title>
+          <Card.Title><span data-name='title'>{book.title}</span> (<span data-name='year'>{book.year}</span>)</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">by <span data-name='author'>{book.author}</span></Card.Subtitle>
             <Card.Text className="mb-2"><b>Genre:</b> <span data-name='genre'>{book.genre}</span></Card.Text>
             <div><b>URL:</b><p><a href={book.url} data-name='url'>{book.url}</a></p></div>
-            <Card.Text className="mb-2"><b>Start:</b><span data-name='start'>{book.start}</span></Card.Text>
+            <Card.Text className="mb-2"><b>Start:</b> <span data-name='start'>{book.start}</span></Card.Text>
             <Card.Text className="mb-2"><b>End: </b><span data-name='end'>{book.end}</span></Card.Text>
-            <Button variant="primary" onClick={handleShow}>
+            <Button id="custom-hint" onClick={handleShow}>
               Edit
             </Button>
             <Modal show={show} onHide={handleClose}>
@@ -366,10 +366,10 @@ function BookCRUD() {
           <Form.Label>Ending</Form.Label>
           <Form.Control type="text" name="end" placeholder="Enter ending text" onChange={handleInput} value={book.end} required />
         </Form.Group>
-        <Button variant="primary" type="submit" className='btn btn-success'>
+        <Button variant="primary" type="submit" id="custom-hint" className='btn btn-success'>
           Submit
         </Button>
-        <Button className="mx-2" variant="primary" type="button" onClick={() => setShow(false)}>
+        <Button className="mx-2" variant="primary" type="button" id="custom-hint"  onClick={() => setShow(false)}>
           Cancel
         </Button>
       </Form>
@@ -380,7 +380,7 @@ function BookCRUD() {
     
   
      <div className="book-new-header">
-     <h1 className="booksTitle">Total Books ({books.length})</h1><Button className="mx-2" variant="primary" onClick={handleShow}>+</Button>
+     <h1 className="booksTitle">Total Books ({books.length})</h1><Button id="custom-hint" className="mx-2" variant="primary" onClick={handleShow}>+</Button>
      </div>
       
       

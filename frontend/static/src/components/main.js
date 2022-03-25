@@ -7,7 +7,7 @@ function MainPage({ setSelection }) {
 
       <div className="main"> 
       <h1>Welcome to Book-Look!</h1>
-      <button className="btn btn-success" onClick={() => {
+      <button id="custom-hint" className="btn btn-success" onClick={() => {
         setSelection('game')
         // setMain(false);
       }}>Play game!</button>
