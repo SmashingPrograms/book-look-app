@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { useState, useEffect, useCallback, Profiler } from 'react';
 import Game from './game/game';
+import { Button } from 'react-bootstrap';
 
 function Header({ auth, setAuth, account, setAccount, profile, username, setUsername, setProfile, selection, setSelection }) {
 
@@ -74,14 +75,14 @@ function Header({ auth, setAuth, account, setAccount, profile, username, setUser
           ''
         }
         {
-          (localStorage.getItem('is_superuser') === 'true') && (selection === 'bookshelf' ? <button type="button" onClick={() => setSelection('main')}>Back</button> : <button type="button" onClick={() => setSelection('bookshelf')}>Bookshelf</button>)
+          (localStorage.getItem('is_superuser') === 'true') && (selection === 'bookshelf' ? <Button variant="success" type="button" onClick={() => setSelection('main')}>Back</Button> : <Button variant="success" type="button" onClick={() => setSelection('bookshelf')}>Bookshelf</Button>)
         }
-          <button type="button" onClick={handleLogout}>Log out</button>
+          <Button variant="success" variant="success" type="button" onClick={handleLogout}>Log out</Button>
         </>
         :
         <>
-          <button type="button" onClick={() => setSelection('login')}>Log in</button>
-          <button type="button" onClick={() => setSelection('register')}>Register</button>
+          <Button variant="success" type="button" onClick={() => setSelection('login')}>Log in</Button>
+          <Button variant="success" type="button" onClick={() => setSelection('register')}>Register</Button>
         </>
       }
       <hr />

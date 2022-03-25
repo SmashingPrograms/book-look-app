@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
 import { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Card, CardGroup } from 'react-bootstrap';
 
 /*
 "title": "Winnie-the-Pooh",
@@ -67,24 +69,26 @@ function BookDetail(props) {
   
   
   const detailsHTML = (
-    <li>
-      <p>Title: </p>
-      <p data-name='title'>{book.title}</p>
-      <p>Author: </p>
-      <p data-name='author'>{book.author}</p>
-      <p>Year: </p>
-      <p data-name='year'>{book.year}</p>
-      <p>Genre: </p>
-      <p data-name='genre'>{book.genre}</p>
-      <p>URL: </p>
-      <p data-name='url'>{book.url}</p>
-      <p>Start: </p>
-      <p data-name='start'>{book.start}</p>
-      <p>End: </p>
-      <p data-name='end'>{book.end}</p>
-      <button type="button" onClick={() => setEditing(true)}>Edit</button>
-      <button type="button" onClick={() => props.handleDelete(props.index)}>Delete</button>
-    </li>
+    // <Col>
+      <Card style={{width: '25rem'}}>
+        <Card.Body>
+          <Card.Title><span data-name='title'>{book.title}</span> (<span data-name='year'>{book.year}</span>)</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">by <span data-name='author'>{book.author}</span></Card.Subtitle>
+          <Card.Text>
+            <p>Genre: </p>
+            <p data-name='genre'>{book.genre}</p>
+            <p>URL: </p>
+            <p data-name='url'>{book.url}</p>
+            <p>Start: </p>
+            <p data-name='start'>{book.start}</p>
+            <p>End: </p>
+            <p data-name='end'>{book.end}</p>
+            <button type="button" onClick={() => setEditing(true)}>Edit</button>
+            <button type="button" onClick={() => props.handleDelete(props.index)}>Delete</button>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    // </Col>
   )
 
   const editingHTML = (
@@ -285,10 +289,8 @@ function BookCRUD() {
     <>
       <h1>Books ({books.length})</h1>
       <form className="form" onSubmit={handleSubmit}>
-        <div>
           <label htmlFor="title">Title: </label>
           <input type="text" id="title" name="title" onChange={handleInput} value={book.title} required />
-        </div>
         <div>
           <label htmlFor="author">Author: </label>
           <input type="text" id="author" name="author" onChange={handleInput} value={book.author} required />
@@ -315,11 +317,13 @@ function BookCRUD() {
         </div>
         <button type="submit" onClick={handleSubmit}>Post</button>
       </form>
-      <ul>
-        {bookPostsHTML}
-      </ul>
-       
-      {/* <BookList title={title} /> */}
+      <Container>
+        <Row>
+          <CardGroup>
+          {bookPostsHTML}
+          </CardGroup>
+        </Row>
+      </Container>
     </>
   )
 }

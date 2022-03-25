@@ -53,7 +53,7 @@ function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick
                 :
                 setBlankClick(expectedWord);
               }}
-              style={{backgroundColor: (blankClick === expectedWord) ? '#C586C0' : 'lightgray' }}
+              style={{backgroundColor: (blankClick === expectedWord) ? '#C586C0' : '#dfe4ea' }}
             >
               _______________
             </button>
