@@ -3,43 +3,12 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Card, CardGroup, Form, Button, Modal, ModalTitle } from 'react-bootstrap';
 
-/*
-"title": "Winnie-the-Pooh",
-"author": "A. A. Milne",
-"year": 1926,
-"genre": "Juvenile",
-"url": "https://www.gutenberg.org/files/67098/67098-h/67098-h.htm",
-"start": "Here is Edward Bear",
-"end": "going up the stairs behind him.",
-
-
-Title: 
-A Modest Proposal
-Author: 
-Jonathan Swift
-Year: 
-1729
-Genre: 
-Nonfiction
-URL: 
-https://gutenberg.org/files/1080/1080-h/1080-h.htm
-Start: 
-It is a melancholy
-End: 
-child-bearing.
-
-*/
-
 function BookDetail(props) {
   const [book, setBook]  = useState({...props.book});
   const [isEditing, setEditing] = useState(false);
   const [show, setShow] = useState(false);
-  // console.log('book detail', book)
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const [title, setTitle] = useState(book.title);
-  // const [description, setDescription] = useState(book.description);
 
 
   const handleSave = async (event) => {
@@ -169,30 +138,20 @@ function BookCRUD() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const [bookTitle, setBookTitle] = useState('');
-  // const [bookPost, setBookPost] = useState('');
-  // setBook([1, 2])
 
   useEffect(() => {
-    // const dataToPush = {...profile};
-    // dataToPush.points = points;
-    // setProfile(dataToPush)
     getBooks();
   }, [])
 
   const getBooks = async () => {
     const response = await fetch(`/api/v1/books/`)
-      // body: JSON.stringify(dataToPush),
 
     const dataToGet = await response.json();
 
     if (!response.ok) {
       throw new Error('Network response for books get request not ok!');
     } else {
-      // console.log(dataToGet)
-      // Cookies.set('Authorization', `Token ${dataToGet.key}`);
       console.log(dataToGet);
-      // setBooks(dataToGet.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())));
       setBooks(dataToGet);
     }
   }
@@ -212,10 +171,6 @@ function BookCRUD() {
 
     setBook({...book, [name]: value})
     console.log(book)
-    // const bookClone = {...book}
-    // // console.log((state === undefined) ? '' : state)
-    // bookClone['title'] = event.target.value ? event.target.value : ''
-    // setBook(bookClone);
   }
 
   const handleSubmit = async (e) => {
@@ -235,10 +190,7 @@ function BookCRUD() {
     if (!response.ok) {
       throw new Error('Network response not ok!');
     } else {
-      // console.log(response)
       const data = await response.json();
-      // Cookies.set('Authorization', `Token ${data.key}`);
-      // getBooks();
       const updatedBooks = [...books];
       updatedBooks.push(data);
       updatedBooks.sort((a, b) => {
@@ -272,19 +224,7 @@ function BookCRUD() {
 
     setBook({...book, [name]: value})
     console.log(book)
-    // const bookClone = {...book}
-    // // console.log((state === undefined) ? '' : state)
-    // bookClone['title'] = event.target.value ? event.target.value : ''
-    // setBook(bookClone);
   }
-
-  // const handleTitleInput = (e) => {
-  //   setBookTitle(e.target.value);
-  // }
-
-  // const handlePostInput = (e) => {
-  //   setBookPost(e.target.value);
-  // }
 
   const handleDelete = async (id) => {
     const response = await fetch(`/api/v1/books/${id}/`, {
@@ -311,19 +251,6 @@ function BookCRUD() {
     console.log('firing after', id, updatedBooks);
     setBooks(updatedBooks);
   }
-
-  // const handleChange = (index, event) => {
-  //   // const booksCopy = [...books];
-  //   // booksCopy[index] = {...booksCopy[index], title, description};
-  //   const target = event.target;
-  //   console.log(target)
-  //   const value = target.value;
-  //   console.log(value)
-  //   const name = target.name;
-
-  //   setBook({...book, [name]: value})
-  //   // setBooks(booksCopy);
-  // }
 
   const bookPostsHTML = books.map((book) => (
     <BookDetail key={book.id} book={book} handleDelete={handleDelete} handleChange={handleChange} books={books} getBooks={getBooks} setBooks={setBooks}/>
