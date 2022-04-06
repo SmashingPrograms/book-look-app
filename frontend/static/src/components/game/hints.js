@@ -177,14 +177,14 @@ function Hints({ hint, setHint, hintsTriggered, setHintsTriggered, pointIncremen
       }}>Get next passage</button>
       }
       <button id="custom-hint" className="btn btn-success mx-2" onClick={() => {
-        const incrementation = 10;
+        const incrementation = 5;
         hintOrNot(() => {
           getDatamuseData('ml', 'similar words', incrementation);
           managePoints('-', incrementation);
       });
       }}>Get words with similar meanings</button>
       <button id="custom-hint" className="btn btn-success mx-2" onClick={() => {
-        const incrementation = 15;
+        const incrementation = 10;
         hintOrNot(() => {
           getDatamuseData('rel_rhy', 'rhymes', incrementation);
           managePoints('-', incrementation);

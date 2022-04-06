@@ -1,27 +1,4 @@
-import { React, useState, useEffect, useCallback } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import Hints from "./hints";
-
-/*
-event.preventDefault();
-    const profileCopy = {...profile}
-    profileCopy.avatar = event.target.value;
-    setProfile(profileCopy);
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
-      },
-      body: JSON.stringify(profileCopy),
-    }
-
-    const response = await fetch('/rest-auth/logout/', options)
-
-    const data = await response.json();
-    setProfile(data)
-*/
+import { React, useState } from "react";
 
 function Blank({ id, expectedWord, wordChoices, setWordChoices, data, blankClick, setBlankClick, matchChoiceToBlank, choiceClick, setChoiceClick, hint, setHint }) {
  
